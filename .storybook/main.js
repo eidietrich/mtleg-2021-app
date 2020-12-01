@@ -16,6 +16,8 @@ module.exports = {
     config.module.rules[0].use[0].options.presets = [
       require.resolve("@babel/preset-react"),
       require.resolve("@babel/preset-env"),
+      // For getting storybook to play nicely with emotion styled CSS components
+      require.resolve('@emotion/babel-preset-css-prop'),
     ]
     config.module.rules[0].use[0].options.plugins = [
       // use @babel/plugin-proposal-class-properties for class arrow functions

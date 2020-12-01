@@ -2,11 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from './Button';
-import './header.css';
+// import './header.css';
+
+import { css } from '@emotion/react'
+
+const wrapperStyle = css`
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const Header = ({ user, onLogin, onLogout, onCreateAccount }) => (
   <header>
-    <div className="wrapper">
+    <div css={wrapperStyle}>
       <div>
         <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" fillRule="evenodd">

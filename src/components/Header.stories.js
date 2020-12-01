@@ -1,5 +1,6 @@
 import React from 'react';
 
+import './../config/base.css'
 import Header from './Header';
 
 export default {
