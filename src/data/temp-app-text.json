@@ -1,0 +1,85 @@
+{
+    "hed": "The 2021 Montana Legislature: The MTFP guide",
+    "house": {
+        "description": [
+            {
+                "type": "text",
+                "value": "The Montana House does XXX. It has 100 representatives elected to two-year terms, each representing a specific house district. Budget bills are supposed to start here."
+            },
+            {
+                "type": "text",
+                "value": "1-2 grafs more w/ high school civics info."
+            }
+        ]
+    },
+    "senate": {
+        "description": [
+            {
+                "type": "text",
+                "value": "The Montana Senate does XXX. It has 50 senators, each representing a specific senate district. It’s kind of stuffy over there."
+            },
+            {
+                "type": "text",
+                "value": "1-2 grafs more w/ high school civics info."
+            }
+        ]
+    },
+    "governor": {
+        "description": [
+            {
+                "type": "text",
+                "value": "Gov. Greg Gianforte, elected last fall, took office in early 2021 as Montana’s first Republican governor since 2005. TRUE CONSERVATIVE RULE now."
+            },
+            {
+                "type": "text",
+                "value": "1-2 grafs more about governor’s powers, high school civics type info."
+            }
+        ]
+    },
+    "lawmakers": [
+        {
+            "key": "Wylie Galt",
+            "annotation": [
+                {
+                    "type": "text",
+                    "value": "Galt is speaker of the house."
+                },
+                {
+                    "type": "text",
+                    "value": "This is a second graf discussing his biography."
+                }
+            ]
+        },
+        {
+            "key": "Llew Jones",
+            "annotation": [
+                {
+                    "type": "text",
+                    "value": "Jones is a longtime lawmaker who has played a central role in crafting the state budget for XXXX. Solutions Caucus yada yada."
+                }
+            ]
+        }
+    ],
+    "bills": [
+        {
+            "key": "HB 2",
+            "isMajorBill": "no",
+            "annotation": [
+                {
+                    "type": "text",
+                    "value": "This is the primary state budget bill."
+                }
+            ]
+        },
+        {
+            "key": "HB 658",
+            "isMajorBill": "yes",
+            "annotation": [
+                {
+                    "type": "text",
+                    "value": "This thing renewed Medicaid expansion"
+                }
+            ]
+        }
+    ]
+}

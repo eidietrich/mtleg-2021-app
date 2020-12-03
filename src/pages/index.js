@@ -1,12 +1,19 @@
 import React from "react"
 
-import Header from '../components/Header'
+import Layout from '../components/Layout'
+import SEO from "../components/seo"
 
-import '../config/base.css'
+import KeyBills from '../compositions/OverviewKeyBills'
+import VotingPatterns from '../compositions/OverviewVotingPatterns'
 
-export default function Home() {
+const Index = () => {
   return <div>
-      <Header />
-      <div>Hello world!</div>
+      <SEO title="The 2021 Montana Legislature" />
+      <Layout>
+        <KeyBills />
+        <VotingPatterns />
+      </Layout>
     </div>
 }
+
+export default Index
