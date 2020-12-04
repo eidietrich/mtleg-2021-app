@@ -4,14 +4,13 @@ import Layout from '../components/Layout'
 import SEO from "../components/seo"
 import Text from '../components/Text'
 
-import { house } from '../data/temp-app-text.json'
-
+import { text } from '../data/house.json'
 
 const House = () => {
   return <div>
       <SEO title="Montana House" />
       <Layout>
-        <Text paragraphs={house.description} />
+        <Text paragraphs={text.description} />
       </Layout>
     </div>
 }

@@ -83,3 +83,21 @@ hr {
 img {
     margin-bottom: 0; /* overwrites default */
 }
+
+table {
+    border-collapse: collapse; 
+    
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+
+    
+}
+@media screen and (max-width: 468px) {
+    table {
+        font-size: 11px;
+    }
+}
+
+th {
+    text-align: left;
+}

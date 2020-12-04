@@ -8,20 +8,16 @@ import BillCoverage from '../compositions/BillCoverage'
 
 const BillPage = props => {
   const {
-    key,
+    // key,
     bill,
 } = props.pageContext
-
+  console.log(bill)
   return <div>
     <h1>{bill.identifier}: {bill.title}</h1>
     <BillInfo {...bill}/>
-    <h3>Annotations</h3>
     <Text paragraphs={bill.annotation} />
-    <BillActions />
-    <BillCoverage />
-    <br />
-    <div>Data:</div>
-    <div>{JSON.stringify(bill)}</div>
+    <BillActions actions={bill.actions}/>
+    <BillCoverage articles={bill.articles}/>
   </div>;
 };
 

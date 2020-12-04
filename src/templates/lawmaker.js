@@ -11,23 +11,18 @@ import LawmakerCoverage from '../compositions/LawmakerCoverage'
 
 const LawmakerPage = props => {
   const {
-    key,
     lawmaker,
 } = props.pageContext
-
+  // console.log(lawmaker)
   return <div>
     <SEO title="TK" />
     <Layout>
-      <h1>{key}</h1>
-      <LawmakerInfo />
-      <h4>Annotations</h4>
+      <h1>{lawmaker.title} {lawmaker.name}</h1>
+      <LawmakerInfo {...lawmaker}/>
       <Text paragraphs={lawmaker.annotation} />
-      <LawmakerBills />
-      <LawmakerVotes />
-      <LawmakerCoverage />
-      <br />
-      <div>Data:</div>
-      <div>{JSON.stringify(lawmaker)}</div>
+      <LawmakerBills bills={lawmaker.bills}/>
+      <LawmakerVotes lastName={lawmaker.lastName} votes={lawmaker.votes}/>
+      <LawmakerCoverage articles={lawmaker.articles}/>
     </Layout>
   </div>;
 };

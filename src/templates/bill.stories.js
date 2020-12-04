@@ -3,7 +3,7 @@ import React from 'react';
 import './../config/base.css'
 import BillPage from './bill';
 
-import { bills } from '../data/main.json'
+import { bills } from '../data/bills.json'
 // TODO: Work data merge into processing step (avoid redundancy w/ gatsby-node)
 
 export default {

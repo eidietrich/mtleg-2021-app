@@ -3,7 +3,7 @@ import React from 'react';
 import './../config/base.css'
 import LawmakerPage from './lawmaker';
 
-import { lawmakers } from '../data/main.json'
+import { lawmakers } from '../data/lawmakers.json'
 
 export default {
   title: 'Pages/Single lawmaker',

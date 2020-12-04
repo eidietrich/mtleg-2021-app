@@ -1,5 +1,13 @@
+// colors
 
+// TODO: Add party colors
 
+export const positionColors = {
+    Y: '#91cf60',
+    N: '#fc8d59'
+}
+
+// Menus
 // TODO: Automate pulling these from WordPress
 export const footerLogoUrl = 'https://montanafreepress.org/wp-content/uploads/2020/05/website-footer-logo-1.png'
 export const footerMenus = [

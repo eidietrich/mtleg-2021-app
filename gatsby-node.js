@@ -13,38 +13,35 @@
 // TODO: See if it makes more sense to query data file via GraphQL here
 
 // TODO: Work data merge for bill annotations into processing step
-const { bills, lawmakers, updateDate } = require('./src/data/main.json')
-const committees = []
+// const { bills, lawmakers, updateDate } = require('./src/data/main.json')
+const billData = require('./src/data/bills.json')
+const lawmakerData = require('./src/data/lawmakers.json')
+const committeeData = {} // TODO
 
 // create pages
 
 // Committee pages TK
 
-const makeLawmakerKey = lawmaker => (lawmaker.name).replace(/\s/g, '-')
-const makeBillKey = bill => bill.identifier.replace(/\s/g, '-')
-
 exports.createPages = async({ actions: { createPage } }) => {
-    lawmakers.slice(5,10).forEach(lawmaker => {
-        const key = makeLawmakerKey(lawmaker)
+    lawmakerData.lawmakers.forEach(lawmaker => {
+        const key = lawmaker.key
         createPage({
             path: `/lawmakers/${key}`,
             component: require.resolve('./src/templates/lawmaker.js'),
             context: {
-                key,
-                updateDate,
+                updateDate: lawmakerData.updateDate,
                 lawmaker 
             },
         })
     })
     
-    bills.slice(50,60).forEach(bill => {
-        const key = makeBillKey(bill)
+    billData.bills.forEach(bill => {
+        const key = bill.key
         createPage({
             path: `/bills/${key}`,
             component: require.resolve('./src/templates/bill.js'),
             context: {
-                key,
-                updateDate,
+                updateDate: billData.updateDate,
                 bill
             },
         })

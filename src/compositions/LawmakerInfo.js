@@ -1,17 +1,20 @@
 import React from 'react';
 
-const LawmakerInfo = () => {
+const LawmakerInfo = ({name, party, district, residence, roles, history}) => {
   return <div>
-      <h3>Lawmaker info</h3>
-      <ul>
-        <li>Name</li>
-        <li>Party</li>
-        <li>Place of residence</li>
-        <li>District</li>
-        <li>Legislative service history (e.g. number of sessions served)</li>
-        <li>2021 leadership roles</li>
-        <li>Optional extra details</li>
-      </ul>
+      <div>Party: {party}</div>
+      <div>District: {district}</div>
+      <div>Residence: {residence}</div>
+      {
+        roles ?
+        <div>Leadership roles: {roles}</div>
+        : null
+      }
+      {
+        history ?
+        <div>Experience in past legislatures: {history}</div>
+        : null
+      }
   </div>
 };
 

@@ -10,7 +10,7 @@ Design needs needs:
 Data structure:
 {
   title
-  billStatus (categorical text)
+  status (categorical text)
   sponsor
   lawsUrl
   textUrl

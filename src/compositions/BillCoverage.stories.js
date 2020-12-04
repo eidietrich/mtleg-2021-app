@@ -9,7 +9,45 @@ export default {
 };
 
 const Template = (args) => <BillCoverage {...args} />
-// const Template = (args) => <div>XXX</div>
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  articles: [
+    {
+      title: 'This bill is great, sponsor says',
+      date: new Date('12/3/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    },
+    {
+      title: 'This bill is awful, chairman says',
+      date: new Date('12/4/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    },
+    {
+      title: 'This bill is great, sponsor says',
+      date: new Date('12/3/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    },
+    {
+      title: 'This bill is awful, chairman says',
+      date: new Date('12/4/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    },
+    {
+      title: 'This bill is going to die',
+      date: new Date('12/2/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    },
+    {
+      title: 'This bill will change your life',
+      date: new Date('12/1/2020'),
+      url: 'https://example.com',
+      displayClass: null,
+    }
+  ]
+}

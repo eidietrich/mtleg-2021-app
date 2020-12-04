@@ -11,4 +11,11 @@ export default {
 const Template = (args) => <LawmakerInfo {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  name: 'Mary Caferro',
+  party: 'D',
+  district: 'HD ',
+  residence: 'Helena',
+  roles: 'TK',
+  history: 'TK',
+}
