@@ -18,7 +18,6 @@ Data structure:
 const LawmakerCoverage = ({articles}) => {
   return <div>
       <h3>Media coverage</h3>
-      <div>MTFP stories about the bill</div>
       <LinksList links={articles} featuredFilter={d => false}/>
   </div>
 };

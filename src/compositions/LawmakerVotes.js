@@ -35,9 +35,9 @@ Data structure:
 */
 
 const LawmakerVotes = ({lastName, votes}) => {
-  const voteFilter = d => true
-  const rows = votes
-    .filter(voteFilter)
+  // TODO - filter these just to key votes
+  const rows = votes.slice(0,20)
+    .filter(vote => vote.keyVote)
     .map(d => <Vote {...d} />)
   return <div>
       <h3>Key 2021 votes by {lastName}</h3>
@@ -60,24 +60,39 @@ const LawmakerVotes = ({lastName, votes}) => {
 };
 
 const voteOptions = {
-  'Y' : { label: 'YEA', color: positionColors['Y']},
-  'N' : { label: 'NAY', color: positionColors['N']}
+  'yes' : { label: 'YEA', color: positionColors['Y']},
+  'no' : { label: 'NAY', color: positionColors['N']}
 }
 
-const Vote = ({identifier, title, lawmakerVote, voteOutcome, voteGopCaucus, voteDemCaucus}) => {
+const Vote = ({billKey, bill, action, lawmakerVote,
+    motionPassed, count,
+    demSupported, demCount,
+    gopSupported, gopCount,
+  }) => {
   
-  const voteText = voteOptions[lawmakerVote].label
-  const voteColor = voteOptions[lawmakerVote].color
-  const voteCellStyle = css`background-color: ${voteColor};`
+  // TODO: Get bill title in here
+
+  const voteColor = (voteOptions[lawmakerVote] && voteOptions[lawmakerVote].color) || '#ccc'
+  
+  const voteCellStyle = css`
+    text-transform: capitalize;
+    background-color: ${voteColor};
+    font-weight: bold;
+    border-right: 1px solid #444;
+    border-left: 1px solid #444;
+  `
   return <tr>
-    <td><Link to={`/bills/${billUrl(identifier)}`}>{identifier}: {title}</Link></td>
+    <td>
+      <div><Link to={`/bills/${billKey}`}>{bill}</Link></div>
+      <div>{action}</div>
+    </td>
     <td>House XXXXX Committee on Stuff</td>
     <td css={[cellCenteredStyle, voteCellStyle]}>
-      {voteText}
+      {lawmakerVote}
     </td>
-    <td css={cellCenteredStyle}>{voteOutcome}</td>
-    <td css={cellCenteredStyle}>{voteGopCaucus}</td>
-    <td css={cellCenteredStyle}>{voteDemCaucus}</td>
+    <td css={[cellCenteredStyle]}>{count.yes}-{count.no}</td>
+    <td css={[cellCenteredStyle]}>{gopCount.yes}-{gopCount.no}</td>
+    <td css={[cellCenteredStyle]}>{demCount.yes}-{demCount.no}</td>
   </tr>
 }
 

@@ -11,7 +11,7 @@ export default {
 };
 
 const Template = (args) => <LawmakerPage {...args} />
-
+console.log(lawmakers.find(d => d.name === "Llew Jones"))
 export const LlewJones = Template.bind({})
 LlewJones.args = {
   pageContext: {
