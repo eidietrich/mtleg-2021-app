@@ -13,10 +13,11 @@ module.exports = {
     siteUrl:`https://www.apps.montanafreepress.org/tk-2021-montana-legislature`,
     keywords: ['Montana','Legislature','House','Senate','2021', 'state budget']
   },
-  pathPrefix: `/montana-2020`, // for S3
+  pathPrefix: `/staging-mtleg-2021`, // for S3
   plugins: [
     `gatsby-plugin-react-helmet`,
-    
+    `gatsby-plugin-anchor-links`,
+    `gatsby-transformer-json`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -24,7 +25,6 @@ module.exports = {
         path: `${__dirname}/src/data`,
       },
     },
-    `gatsby-transformer-json`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

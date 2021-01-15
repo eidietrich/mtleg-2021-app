@@ -2,6 +2,37 @@
 
 // TODO: Add party colors
 
+export const statusColors = (billStatus) => {
+    return {
+        live: '#91cf60',
+        stalled: '#fc8d59',
+        approved: '#91cf60',
+    }[billStatus] || '#666'
+}
+
+export const partyColors = (partyLetter, variant = null) => {
+    if (variant === 'lighter') {
+        return {
+            'R': '#f2b4b1',
+            'D': '#b6cff0',
+            'L': '#efcf7f',
+            
+        }[partyLetter] || '#666'
+    }
+    if (variant === 'darker') {
+        return {
+            'R': '#b51910',
+            'D': '#285a9c',
+            'L': '#a35b05',
+        }[partyLetter] || '#666'
+    }
+    return {
+        'R': '#d73027',
+        'D': '#4575b4',
+        'L': '#e89a0b'
+    }[partyLetter] || '#666'
+}
+
 export const positionColors = {
     Y: '#91cf60',
     N: '#fc8d59'

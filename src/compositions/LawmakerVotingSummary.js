@@ -75,7 +75,6 @@ const LawmakerVotingSummary = ({lawmaker, votingSummary}) => {
         </div>
       </div>
       <div css={textStyle}>{lawmaker.lastName} has been absent or excused for {numberFormat(votingSummary.numVotesNotPresent)} votes.</div>
-      <div css={noteStyle}>TK more description on these statistics</div>
   </div>
 };
 

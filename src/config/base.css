@@ -6,21 +6,46 @@
 body {
     /* Default to futura-pt for text elements */
     font-family: futura-pt, Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
+}
+
+@media screen and (max-width: 468px){
+    body {
+        font-size: 14px;
+    }
 }
 
 p {
     /* Standard MTFP serif font for any block text copy */
     font-family: utopia-std, Georgia, Garamond, "Times New Roman", serif;
-    color: rgb(17, 17, 17);
     font-size: 18px;
-    line-height: 28.8px;
+    color: rgb(17, 17, 17);
+    /* font-size: 18px; */
+    line-height: 1.5em;
     font-weight: 400;
 }
+@media screen and (max-width: 468px){
+    p {
+        font-size: 16px;
+    }
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family:  futura-pt, Arial, Helvetica, sans-serif;
     font-weight: 700;
+}
+h4 {
+    margin-bottom: 0.5em;
+}
+@media screen and (max-width: 468px){
+    h1 {
+        font-size: 1.3em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    
 }
 .text {
     padding-left: 0.5rem;
@@ -28,12 +53,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .note {
     /* Deliberate choice to not use future-pt here*/
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.9em;
     line-height: 1.2em;
     font-style: italic;
     color: #666;
     margin-bottom: 0.5em;
+    margin-top: 0.3em;
 }
 
 button {
@@ -88,7 +113,7 @@ table {
     border-collapse: collapse; 
     
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
 
     
 }
@@ -100,4 +125,11 @@ table {
 
 th {
     text-align: left;
+}
+
+hr {
+    border-top: 1px solid  #ae9864;
+    border-bottom: none;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
 }

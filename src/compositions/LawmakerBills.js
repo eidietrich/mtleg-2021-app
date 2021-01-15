@@ -79,8 +79,8 @@ const statusStyle = (status) => {
 
 const Bill = ({title, identifier, status}) => {
   return (<tr key={identifier}>
-        <td css={statusStyle(status)}>
-            {status}
+        <td css={css`background-color: ${status.color}`}>
+            {status.label}
         </td>
         <td css={tableLinkStyle}>
            <Link to={`/bill/${billUrl(identifier)}`}>{identifier}: {title}</Link>

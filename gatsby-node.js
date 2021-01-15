@@ -4,45 +4,42 @@
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-// You can delete this file if you're not using it
-
-// const { candidates, races } = require('./src/data/app-copy.json')
-
-// TK data import + merg
+// TK data import + merge
 
 // TODO: See if it makes more sense to query data file via GraphQL here
 
-// TODO: Work data merge for bill annotations into processing step
 // const { bills, lawmakers, updateDate } = require('./src/data/main.json')
-const billData = require('./src/data/bills.json')
-const lawmakerData = require('./src/data/lawmakers.json')
-const committeeData = {} // TODO
+const bills = require('./src/data/bills.json')
+const lawmakers = require('./src/data/lawmakers.json')
+const committees = {} // TODO
 
-// create pages
+exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
-// Committee pages TK
-
-exports.createPages = async({ actions: { createPage } }) => {
-    lawmakerData.lawmakers.forEach(lawmaker => {
+    lawmakers.forEach(async lawmaker => {
         const key = lawmaker.key
+        const imageSlug = lawmaker.imageSlug
+
         createPage({
             path: `/lawmakers/${key}`,
             component: require.resolve('./src/templates/lawmaker.js'),
             context: {
-                updateDate: lawmakerData.updateDate,
-                lawmaker 
+                lawmaker,
+                imageSlug, // For portrait image
             },
         })
     })
-    
-    billData.bills.forEach(bill => {
+
+    bills.forEach(bill => {
         const key = bill.key
+        const sponsor = lawmakers.find(lawmaker => lawmaker.name === bill.sponsor)
+        const { title, name, district, party, residence } = sponsor
         createPage({
             path: `/bills/${key}`,
             component: require.resolve('./src/templates/bill.js'),
             context: {
-                updateDate: billData.updateDate,
-                bill
+                bill,
+                // Abbreviated info on sponsor for sake of data bundle size
+                sponsor: { key, title, name, district, party, residence }
             },
         })
     })

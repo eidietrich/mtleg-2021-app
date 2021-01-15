@@ -3,25 +3,24 @@ import React from 'react';
 import './../config/base.css'
 import LawmakerPage from './lawmaker';
 
-import { lawmakers } from '../data/lawmakers.json'
+import lawmakers from '../data/lawmakers.json'
 
 export default {
-  title: 'Pages/Single lawmaker',
+  title: 'Pages/Lawmaker pages',
   component: LawmakerPage,
 };
 
 const Template = (args) => <LawmakerPage {...args} />
-console.log(lawmakers.find(d => d.name === "Llew Jones"))
-export const LlewJones = Template.bind({})
-LlewJones.args = {
+export const RepLlewJones = Template.bind({})
+RepLlewJones.args = {
   pageContext: {
     key: 'Llew-Jones',
     lawmaker: lawmakers.find(d => d.name === "Llew Jones"),
   }
 }
 
-export const MaryCaferro = Template.bind({})
-MaryCaferro.args = {
+export const RepMaryCaferro = Template.bind({})
+RepMaryCaferro.args = {
   pageContext: {
     key: 'Mary-Caferro',
     lawmaker: lawmakers.find(d => d.name === "Mary Caferro"),

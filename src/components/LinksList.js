@@ -13,27 +13,30 @@ import {
 const linkContainerStyle = css`
     display: flex;
     flex-wrap: wrap;
+    margin: -0.3em;
+    padding: 0;
 `
 const linkStyle = css`
     display: block;
+    background-color: #EAE3DA;
     color: #222;
-    margin-bottom: 0.5rem;
-    padding: 0 0.3rem;
-    border-left: 3px solid #222;
+    padding: 0.3em 0.5em;
+    border: 1px solid #BA892D;
+    margin: 0.3em;
 
     cursor: pointer;
-    flex: 1 0 33%;
+    flex: 1 1 200px;
     min-width: 150px;
 
     :hover {
         text-decoration: none;
-        color: #BA892D;
-        border-left: 3px solid #BA892D;
+        color: #ce5a00;
     }
 
     :hover .title {
-        color: #BA892D;
+        /* color: #BA892D; */
         text-decoration: underline;
+        
     }
 
     .dek {
@@ -51,67 +54,32 @@ const linkStyle = css`
     .date {
         font-size: 0.8em;
         font-style: italic;
-        color: #ae9864;
+        color: #666;
     }
 
 `
-const featuredStyle = css`
-    background: #222;
-    color: #fff;
-
-    :hover {
-        background: #2800d7;
-        color: #fff;
-    }
-`
-
 
 // Handles null dates from improperly parsed links
 const presentDate = date => date ? dateFormat(new Date(date)) : null
 
-// TODO: Break this into data processing step
-const dedupeTitles = (links) => {
-    const sorted = links.sort((a,b) => new Date(b.date) - new Date(a.date))
-    const uniqueTitles = Array.from(new Set(sorted.map(d => d.title)))
-    return uniqueTitles.map(title => sorted.find(d => title === d.title))
-}
-
 const LinksList = (props) => {
-    const { links, featuredFilter } = props
+    const { articles } = props
     
-    if (links.length === 0) return <div css={containerStyle}>
-        {/* <h2>Media coverage</h2> */}
+    if (articles.length === 0) return <div css={containerStyle}>
         <div css={noteStyle}>No stories currently in our database.</div>
     </div> 
 
-    const deduped = dedupeTitles(links)
-
     return <div css={containerStyle}>
-        {/* <div css={noteStyle}>Stories tracked in our database of 2021 legislative coverage.</div> */}
-        <br/>
         <div css={linkContainerStyle}>
             {
-                deduped
-                    .filter(featuredFilter)
+                articles
                     .sort((a,b) => new Date(b.date) - new Date(a.date))
-                    .map((link, i) => <FeaturedLink 
+                    .map((article, i) => <Link
                         key={String(i)}
-                        url={link.url}
-                        dek={link.publication}
-                        title={link.title}
-                        date={link.date}
-                    />)
-            }
-            {
-                deduped
-                    .filter((d) => !featuredFilter(d)) // invert
-                    .sort((a,b) => new Date(b.date) - new Date(a.date))
-                    .map((link, i) => <BasicLink
-                        key={String(i)}
-                        url={link.url}
-                        dek={link.publication}
-                        title={link.title}
-                        date={link.date}
+                        link={article.link}
+                        // dek={article.publication}
+                        title={article.title}
+                        date={article.date}
                     />)
             }
         </div>
@@ -119,19 +87,9 @@ const LinksList = (props) => {
 }
 export default LinksList 
 
-const FeaturedLink = (props) => {
-    const { url, dek, title, date } = props
-    return <a css={[linkStyle, featuredStyle]} href={url}>
-        <div className='dek'>{dek}</div>
-        <div className='title'>{title}</div>
-        <div className='date'>{presentDate(date)}</div>
-    </a>
-
-}
-
-const BasicLink = (props) => {
-    const { url, dek, title, date } = props
-    return <a css={linkStyle} href={url}>
+const Link = (props) => {
+    const { link, dek, title, date } = props
+    return <a css={linkStyle} href={link}>
         <div className='dek'>{dek}</div>
         <div className='title'>{title}</div>
         <div className='date'>{presentDate(date)}</div>

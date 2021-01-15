@@ -17,7 +17,9 @@ import Header from './Header'
 import Nav from './Nav'
 import Footer from './Footer'
 
-// import text from '../data/app-copy.json'
+import { updateTime } from '../data/summary.json'
+import { formatTime } from '../config/utils'
+
 
 import "../config/base.css"
 
@@ -29,13 +31,12 @@ const contentStyle = css`
     padding: 10px;
     max-width: 800px;
     margin: auto;
-
-    font-family: Arial, Helvetica, sans-serif;
 `
 const titleStyle = css`
-  color: #444;
+  color: #806f47;
   font-size: 1.1em;
   margin-bottom: 0.3em;
+  text-transform: uppercase;
 `
 
 const Layout = ({ children }) => {
@@ -43,7 +44,8 @@ const Layout = ({ children }) => {
     <div css={bodyStyles}>
       <Header />
       <div css={contentStyle}>
-        <h2 css={titleStyle}>Montana's 2021 Legislature: The MTFP guide</h2>
+        <h2 css={titleStyle}>Statehouse guide: Montana's 2021 Legislative Session</h2>
+        <div>Last update: {formatTime(new Date(updateTime))}</div>
         <Nav />
         <main>{children}</main>
       </div>

@@ -1,0 +1,142 @@
+import React from 'react'
+import { css } from '@emotion/react'
+
+import { scaleLinear } from 'd3-scale'
+
+import {
+    numberFormat,
+    percentFormat,
+} from '../config/utils'
+import { partyColors } from '../config/config'
+
+const sectionCss = css`
+    background-color: #eae3da;
+    padding: 0.5em;
+    border: 1px solid #806f47;
+
+    h4 {
+        margin-top: 0.2em;
+        margin-bottom: 0.2em;
+    }
+`
+
+const electionContainerCss = css`
+    margin-bottom: 0.5em;
+`
+const containerCss = css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+`
+
+const LawmakerElectionHistory = ({ lawmaker }) => {
+    const district = lawmaker.district
+    const { last_election, replacementNote} = district
+    const lawmakerParty = lawmaker.party
+    const govGenElex = district.gen_elex.gov
+    const legGenElex = district.gen_elex.leg
+    const legPriElex = district.pri_elex.leg.filter(d => d.party === lawmakerParty)
+
+    return <div css={sectionCss}>
+        <div className="note">Last in-cycle for {lawmaker.chamber} election in {last_election}. House seats are elected every two years, senate seats every four.</div>
+        {
+            replacementNote && <div>{replacementNote}</div>
+        }
+        <div css={containerCss}>
+            <div>
+                <h4>General election vote, {last_election}</h4>
+                <Election candidates={legGenElex} />
+            </div>
+            <div>
+                <h4>Party primary vote, {last_election}</h4>
+                <Election candidates={legPriElex} />
+            </div>
+            <div>
+                <h4>Governor vote in district, 2020</h4>
+                <Election candidates={govGenElex} />
+            </div>
+        </div>
+
+    </div>
+}
+
+export default LawmakerElectionHistory
+
+const candidateLabelsCss = css`
+    font-size: 0.8em;
+`
+
+const Election = ({ candidates }) => {
+    const totalVotes = candidates.reduce((acc, obj) => acc + obj.votes, 0)
+    const xScale = scaleLinear().range([0, 240]).domain([0, totalVotes])
+    let x = 1
+    const opponents = candidates.map((candidate, i) => {
+        const width = xScale(candidate.votes)
+
+        const text = {
+            key: String(i),
+            x: x,
+            y: 14,
+            dx: -1,
+            textAnchor: 'start',
+            fill: '#222',
+            text: (i === 0) ? `(${candidate.party}) ${candidate.name.toUpperCase()}` : `(${candidate.party})`,
+        }
+        x += width
+
+        return text
+    })
+    x = 1
+    const bars = candidates.map((candidate, i) => {
+        const width = xScale(candidate.votes)
+        const rect = {
+            key: String(i),
+            width,
+            height: 20,
+            x,
+            y: 20,
+            fill: partyColors(candidate.party),
+            // stroke: partyColors(candidate.party, 'lighter'),
+            stroke: '#ddd',
+        }
+        x += width
+        return rect
+    })
+    x = 1
+    const barLabels = candidates.map((candidate, i) => {
+        const width = xScale(candidate.votes)
+        x += width
+        let text
+        if (width > 20) {
+            text = {
+                key: String(i),
+                x: x,
+                y: 35,
+                dx: -3,
+                textAnchor: 'end',
+                fill: '#fff',
+                fontSize: '0.8em',
+                text: percentFormat(candidate.votes / totalVotes),
+            }
+        } else {
+            text = {}
+        }
+
+        return text
+    })
+    return <div css={electionContainerCss}>
+        {
+            (true) && <svg width={260} height={42}>
+                <g css={candidateLabelsCss}>{opponents.map(args => <text {...args}>{args.text}</text>)}</g>
+                <g>{bars.map(args => <rect {...args} />)}</g>
+                <g>{barLabels.map(args => <text {...args}>{args.text}</text>)}</g>
+            </svg>
+        }
+        {
+            (candidates.length > 1) ?
+                <div>Victory margin: {numberFormat(candidates[0].votes - candidates[1].votes)} votes ({percentFormat((candidates[0].votes - candidates[1].votes) / totalVotes) })</div> :
+                <div>Ran unopposed</div>
+        }
+
+    </div>
+}
