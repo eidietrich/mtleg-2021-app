@@ -5,8 +5,13 @@ import { Link } from 'gatsby'
 import { AnchorLink } from "gatsby-plugin-anchor-links";
 
 const navStyle = css`
-    border-bottom: 1px solid #ae9864;
+    border-bottom: 1px solid #444;
     margin-bottom: 0.5em;
+    margin-left: -2px;
+    margin-right: -2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    box-shadow: 0px 3px 3px -3px #000;
     
 `
 const navRowStyle = css`
@@ -37,17 +42,21 @@ const navItemStyle = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
 `
 const navPrimaryStyle = css`
     flex: 1 1 4em;
     padding: 0.2em;
-    border: 1px solid #bbb;
+    border: 1px solid #404040;
+    background-color: #eee;
     box-shadow: 1px 1px 2px #ddd;
     display: flex;
     flex-direction: column;
 
     :hover {
         border: 1px solid #ce5a00;
+        background-color: #f8f8f8;
         text-decoration: none;
     }
 `
@@ -57,40 +66,43 @@ const navPrimaryTitle = css`
 `
 const navPrimaryInfo = css`
     color: #666;
-    font-size: 0.9em;
+    font-size: 0.8em;
 `
 const navSecondaryStyle = css`
     display: block;
     max-width: 12em;
-    margin: 0.25em 0.5em;
+    margin: 0em 0.5em;
+    margin-bottom: 0.25em;
 `
 
 const Nav = (props) => <div css={navStyle}>
-    <div css={[navRowStyle, navRowPrimary]}>
-        <Link css={[navItemStyle, navPrimaryStyle]} to='/house'>
-            <div css={navPrimaryTitle}>House </div>
-            <div css={navPrimaryInfo}>GOP-held 67-33</div>
-        </Link>
-        <Link css={[navItemStyle, navPrimaryStyle]} to='/senate'>
-            <div css={navPrimaryTitle}>Senate</div>
-            <div css={navPrimaryInfo}>GOP-held 31-19</div>
-        </Link>
-        <Link css={[navItemStyle, navPrimaryStyle]} to='/governor'>
-            <div css={navPrimaryTitle}>Gov.</div>
-            <div css={navPrimaryInfo}>Greg Gianforte (R)</div>
-        </Link>
-    </div>
-    <div css={[navRowStyle, navRowSecondary]}>
+
+<div css={[navRowStyle, navRowSecondary]}>
         <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Overview</Link>
         {/* <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Key bills</Link> */}
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#key-bill-status'>Key bills</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-bill'>Find a bill</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-lawmaker'>Find a lawmaker</AnchorLink>
-        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-district'>Find your reps</AnchorLink>
-        <a css={[navItemStyle, navSecondaryStyle]} href="https://montanafreepress.org/home/2021-mt-legislature/">News coverage</a>
-        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#about'>About this project</AnchorLink>
+        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-district'>Find your district</AnchorLink>
+        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/about'>About this project</AnchorLink>
     </div>
 
+    <div css={[navRowStyle, navRowPrimary]}>
+        <Link css={[navItemStyle, navPrimaryStyle]} to='/house'>
+            <div css={navPrimaryTitle}>House &raquo;</div>
+            <div css={navPrimaryInfo}>GOP-held 67-33</div>
+        </Link>
+        <Link css={[navItemStyle, navPrimaryStyle]} to='/senate'>
+            <div css={navPrimaryTitle}>Senate &raquo;</div>
+            <div css={navPrimaryInfo}>GOP-held 31-19</div>
+        </Link>
+        <Link css={[navItemStyle, navPrimaryStyle]} to='/governor'>
+            <div css={navPrimaryTitle}>Gov. &raquo;</div>
+            <div css={navPrimaryInfo}>Greg Gianforte (R)</div>
+        </Link>
+    </div>
+
+    
 
 </div>
 

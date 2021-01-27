@@ -9,17 +9,21 @@ export default class DistrictMatcher {
 
     async matchAddressToLawmakers(address, callback, fallback){
         const locations = await this.geocode(address)
-        const location = this.pickAddress(locations.candidates)
+        const location = this.pickAddress(locations)
         if (location){
             const houseDistrict = await this.getDistrict(location.location, districtApis.house)
             const senateDistrict = await this.getDistrict(location.location, districtApis.senate)
-            const hd = houseDistrict.features[0].attributes['Name']
-            const sd = senateDistrict.features[0].attributes['Name']
-            callback({
-                hd,
-                sd,
-                location: 'Location Handling TK',
-            })
+            if (!houseDistrict || !senateDistrict) {
+                fallback()
+            } else {
+                const hd = houseDistrict.features[0].attributes['Name']
+                const sd = senateDistrict.features[0].attributes['Name']
+                callback({
+                    hd,
+                    sd,
+                    location: location.address,
+                })
+            } 
         } else {
            fallback()
         }
@@ -58,6 +62,7 @@ export default class DistrictMatcher {
             .then(data => data.json())
             .then(res => res)
             .catch(err => console.log(err))
+        if (!data || !data.features) return null
         return data
     }
 
@@ -69,6 +74,9 @@ export default class DistrictMatcher {
         return string
     }
 
-    pickAddress = (candidates) => candidates[0]
+    pickAddress = (locations) => {
+        if (locations === undefined) return null
+        return locations.candidates[0]
+    }
 }
 

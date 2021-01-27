@@ -21,7 +21,7 @@ const linkStyle = css`
     background-color: #EAE3DA;
     color: #222;
     padding: 0.3em 0.5em;
-    border: 1px solid #BA892D;
+    border: 1px solid #806F47;
     margin: 0.3em;
 
     cursor: pointer;

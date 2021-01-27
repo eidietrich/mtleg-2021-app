@@ -6,7 +6,7 @@ export const statusColors = (billStatus) => {
     return {
         live: '#91cf60',
         stalled: '#fc8d59',
-        approved: '#91cf60',
+        'became-law': '#91cf60',
     }[billStatus] || '#666'
 }
 
@@ -93,7 +93,7 @@ export const footerMenus = [
             },
             {
                 label: 'Donate',
-                url: 'https://checkout.fundjournalism.org/memberform?org_id=montanafreepress&campaign=7013s000000UezrAAC',
+                url: 'https://checkout.fundjournalism.org/memberform?org_id=montanafreepress&campaign=7014o000000JNZvAAO',
             }
         ]
     }

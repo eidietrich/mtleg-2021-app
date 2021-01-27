@@ -6,6 +6,7 @@ import { scaleLinear } from 'd3-scale'
 import {
     numberFormat,
     percentFormat,
+    capitalize
 } from '../config/utils'
 import { partyColors } from '../config/config'
 
@@ -38,7 +39,7 @@ const LawmakerElectionHistory = ({ lawmaker }) => {
     const legPriElex = district.pri_elex.leg.filter(d => d.party === lawmakerParty)
 
     return <div css={sectionCss}>
-        <div className="note">Last in-cycle for {lawmaker.chamber} election in {last_election}. House seats are elected every two years, senate seats every four.</div>
+        <div className="note">Last in-cycle for {capitalize(lawmaker.chamber)} election in {last_election}. House seats are elected every two years, Senate seats every four.</div>
         {
             replacementNote && <div>{replacementNote}</div>
         }
@@ -74,7 +75,6 @@ const Election = ({ candidates }) => {
         const width = xScale(candidate.votes)
 
         const text = {
-            key: String(i),
             x: x,
             y: 14,
             dx: -1,
@@ -87,10 +87,9 @@ const Election = ({ candidates }) => {
         return text
     })
     x = 1
-    const bars = candidates.map((candidate, i) => {
+    const bars = candidates.map((candidate) => {
         const width = xScale(candidate.votes)
         const rect = {
-            key: String(i),
             width,
             height: 20,
             x,
@@ -103,13 +102,12 @@ const Election = ({ candidates }) => {
         return rect
     })
     x = 1
-    const barLabels = candidates.map((candidate, i) => {
+    const barLabels = candidates.map((candidate) => {
         const width = xScale(candidate.votes)
         x += width
         let text
         if (width > 20) {
             text = {
-                key: String(i),
                 x: x,
                 y: 35,
                 dx: -3,
@@ -127,14 +125,14 @@ const Election = ({ candidates }) => {
     return <div css={electionContainerCss}>
         {
             (true) && <svg width={260} height={42}>
-                <g css={candidateLabelsCss}>{opponents.map(args => <text {...args}>{args.text}</text>)}</g>
-                <g>{bars.map(args => <rect {...args} />)}</g>
-                <g>{barLabels.map(args => <text {...args}>{args.text}</text>)}</g>
+                <g css={candidateLabelsCss}>{opponents.map((args, i) => <text  key={String(i)} {...args}>{args.text}</text>)}</g>
+                <g>{bars.map((args, i) => <rect key={String(i)} {...args} />)}</g>
+                <g>{barLabels.map((args, i) => <text key={String(i)}  {...args}>{args.text}</text>)}</g>
             </svg>
         }
         {
             (candidates.length > 1) ?
-                <div>Victory margin: {numberFormat(candidates[0].votes - candidates[1].votes)} votes ({percentFormat((candidates[0].votes - candidates[1].votes) / totalVotes) })</div> :
+                <div>Won by {percentFormat((candidates[0].votes - candidates[1].votes) / totalVotes) } ({numberFormat(candidates[0].votes - candidates[1].votes)} votes)</div> :
                 <div>Ran unopposed</div>
         }
 

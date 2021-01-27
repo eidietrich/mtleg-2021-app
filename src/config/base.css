@@ -35,8 +35,13 @@ h1, h2, h3, h4, h5, h6 {
     font-family:  futura-pt, Arial, Helvetica, sans-serif;
     font-weight: 700;
 }
+h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
 h4 {
     margin-bottom: 0.5em;
+    color: #806F47;
 }
 @media screen and (max-width: 468px){
     h1 {
@@ -111,15 +116,11 @@ img {
 
 table {
     border-collapse: collapse; 
-    
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-
-    
+    font-size: 14px;   
 }
 @media screen and (max-width: 468px) {
     table {
-        font-size: 11px;
+        font-size: 13px;
     }
 }
 
@@ -132,4 +133,8 @@ hr {
     border-bottom: none;
     margin-bottom: 0.5em;
     margin-top: 0.5em;
+}
+
+input {
+    font-size: 16px; /* Necessary to avoid zooming bug on iOS */
 }

@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import TextInput from '../components/TextInput'
 
-const standardize = string => string.toUpperCase().replaceAll(' ','').replaceAll('-','')
+const standardize = string => string.toUpperCase().replaceAll(' ', '').replaceAll('-', '')
 
 class BillLookup extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class BillLookup extends Component {
 
     searchByIdentifier(input) {
         const { bills } = this.props
-        const minSearchLength = 0
+        const minSearchLength = 1
         const resultLimit = 10
 
         this.refTitleInput.current.reset()
@@ -33,13 +33,13 @@ class BillLookup extends Component {
         } else {
             const filterKey = standardize(input)
             const billsFound = bills.filter(d => {
-                return standardize(d.identifier).includes(filterKey) 
-            }).slice(0,resultLimit)
+                return standardize(d.identifier).includes(filterKey)
+            }).slice(0, resultLimit)
             this.setState({
                 billsFound
             })
         }
-        
+
     }
 
     searchByTitle(input) {
@@ -55,8 +55,8 @@ class BillLookup extends Component {
         } else {
             const filterKey = standardize(input)
             const billsFound = bills.filter(d => {
-                return standardize(d.title).includes(filterKey) 
-            }).slice(0,resultLimit)
+                return standardize(d.title).includes(filterKey)
+            }).slice(0, resultLimit)
             this.setState({
                 billsFound
             })
@@ -66,25 +66,26 @@ class BillLookup extends Component {
     render() {
         const { billsFound } = this.state
         return <div>
-            <div>Search by number or bill code</div>
+            <div css={labelCss}>Type to search by number</div>
             <TextInput
                 handleInput={this.searchByIdentifier}
-                placeholder='e.g. "100" or "HB 100"'
+                placeholder='e.g., "100" or "HB 100"'
                 ref={this.refIdInput}
             />
-            <div className="note">"HB" and "SB" indicate House and Senate bills, respectively. "HR" and "SR" indicate House and Senate resolutions.</div>
-            <div>Search by words in bill title</div>
+
+            <div css={labelCss}>Type to search by words in bill title</div>
             <TextInput
                 handleInput={this.searchByTitle}
-                placeholder='e.g. "budget", "tax", or "coal"' 
+                placeholder='e.g., "budget," "tax," or "coal"'
                 ref={this.refTitleInput}
             />
-            {/* <div> [TK? Search by bill subject]</div>
-            <div> [TK? Search by assigned committee]</div> */}
-            
+
             <div css={resultContainer}>
                 {
-                    billsFound.map(bill => <BillEntry key={bill.key} bill={bill} />)
+                    (billsFound.length > 0) && billsFound.map(bill => <BillEntry key={bill.key} bill={bill} />)
+                }
+                {
+                    (billsFound.length === 0) && <div css={placeholderCss}>Search results</div>
                 }
             </div>
 
@@ -95,18 +96,30 @@ class BillLookup extends Component {
 const resultContainer = css`
     /* display: flex; */
     /* flex-wrap: wrap; */
-    margin: -0.5em;
+    /* margin: -0.5em; */
+    padding-top: 1px;
+    padding-bottom: 1px;
+    min-height: 8em;
+    background-color: #eee;
+`
+const placeholderCss = css`
+    display: flex;
+    height: 8em;
+    color: #aaa;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
 `
 const resultItem = css`
     flex: 1 1 190px;
     margin: 0.5em;
-    border: 1px solid #ddd;
+    border: 1px solid #806F47;
+    background-color: #eae3d4;
     padding: 0.5em;
 `
-const resultLabel = css`
-    font-weight: bold;
-`
+
 const resultName = css``
+const labelCss = css`margin-bottom: 0.2em;`
 
 const BillEntry = ({ bill }) => {
     const { key, identifier, title } = bill

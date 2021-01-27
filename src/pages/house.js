@@ -9,83 +9,136 @@ import Roster from '../components/Roster'
 import ChamberLeadership from '../components/ChamberLeadership'
 import BillTable from '../components/BillTable'
 import ContactUs from '../components/ContactUs'
+import Newsletter from '../components/Newsletter'
 
 import { text } from '../data/house.json'
 
 // TODO - break this out to app text
 const leadership = [
-  { role: 'Speaker of the House', name: 'Rep. Wylie Galt (R)', key: 'Wylie-Galt' },
-  { role: 'Majority Leader', name: 'Rep. Sue Vinton (R)', key: 'Sue-Vinton' },
-  { role: 'Minority Leader', name: 'Rep. Kim Abbott (D)', key: 'Kim-Abbott' },
+  { role: 'Speaker of the House', name: 'Rep. Wylie Galt (R-Martinsdale)', key: 'Wylie-Galt' },
+  { role: 'Majority Leader', name: 'Rep. Sue Vinton (R-Billings)', key: 'Sue-Vinton' },
+  { role: 'Minority Leader', name: 'Rep. Kim Abbott (D-Helena)', key: 'Kim-Abbott' },
 ]
 
 const House = ({ data }) => {
   const representatives = data.allLawmakersJson.edges.map(d => d.node)
-  
-  const houseBillsInHouse = data.houseBills.edges.map(d => d.node)
-    .filter(d => d.status.step === 'First chamber')
-  const senateBillsInHouse = data.senateBills.edges.map(d => d.node)
-    .filter(d => d.status.step === 'Second chamber')
 
-  const houseBillsInReconciliation = data.houseBills.edges.map(d => d.node)
-    .filter(d => d.status.step === 'Reconciliation')
-  const houseBillsPassed = data.houseBills.edges.map(d => d.node)
-    .filter(d => d.status.step === 'Passed')
-  const houseBillsDead = data.houseBills.edges.map(d => d.node)
-    .filter(d => d.status.step === 'Failed')
+  const houseBills = data.houseBills.edges.map(d => d.node).filter(d => d.type === 'bill')
+  const senateBills = data.senateBills.edges.map(d => d.node).filter(d => d.type === 'bill')
 
+  const houseBillsInHouse = houseBills.filter(d => d.status.step === 'First chamber')
+  const senateBillsInHouse = senateBills.filter(d => d.status.step === 'Second chamber')
 
+  // First chamber
   const billsInCommittee = houseBillsInHouse
-    .filter(d => ['Introduced','In committee', 'Tabled'].includes(d.status.label))
+    .filter(d => ['Introduced','In committee', 'Tabled in committee'].includes(d.status.label))
   const billsAwaitingFloorAction = houseBillsInHouse
-    .filter(d => d.status.label === 'On floor' )
+    .filter(d => d.status.label === 'Out of committee' )
   const billsThruFloorAction = houseBillsInHouse
-    .filter(d => !['Introduced','In committee', 'Tabled', 'On floor'].includes(d.status.label))
+    .filter(d => !['Introduced','In committee', 'Out of committee', 'Tabled in committee', 'On floor'].includes(d.status.label))
 
+  // Second chamber
+  const billsTransmittedToSecondChamber = senateBillsInHouse
+  .filter(d => d.status.label === 'Transmitted' )
+  const billsInCommitteeSecondChamber = senateBillsInHouse
+    .filter(d => ['Introduced','In committee', 'Tabled in committee'].includes(d.status.label))
+  const billsAwaitingFloorActionSecondChamber = senateBillsInHouse
+    .filter(d => d.status.label === 'Out of committee' )
+  const billsThruFloorActionSecondChamber = senateBillsInHouse
+  .filter(d => !['Transmitted','In committee', 'Out of committee', 'Tabled in committee', 'On floor'].includes(d.status.label))
+
+  // other steps
+  const houseBillsInReconciliation = houseBills.filter(d => d.status.step === 'Reconciliation')
+  const houseBillsThruLegislature = houseBills.filter(d => d.status.step === 'Through Legislature')
+  const houseBillsPassed = houseBills.filter(d => d.status.step === 'Passed')
+  const houseBillsDead = houseBills.filter(d => d.status.step === 'Failed')
+  
+  // Resolutions
+  const houseResolutions = data.houseBills.edges.map(d => d.node).filter(d => d.type !== 'bill')
+  const houseResolutionsProposed = houseResolutions.filter(d => d.status.step !== 'Passed')
+  const houseResolutionsPassed = houseResolutions.filter(d => d.status.step === 'Passed')
 
   return <div>
-    <SEO title="Montana House" />
+    <SEO
+      title="Montana House"
+      description="How the 100 state Representatives in Montana's Republican-controlled House are working to shape state law."
+    />
     <Layout>
       <h1>The Montana House</h1>
       <div>67 Republicans, 33 Democrats</div>
 
       <Text paragraphs={text.description} />
 
+      <Newsletter />
+
       <ChamberLeadership leadership={leadership} />
+
 
       <Roster title="Membership" chamberLabel="House" lawmakers={representatives} />
 
-      <h3 id="house-bills-in-house">House Bills before the House</h3>
-      <div>Bills introduced in the House that haven't passed the chamber</div>
+      <h2 id="house-bills-in-house">House bills before the House (in their first chamber)</h2>
 
       <h4>In initial committees</h4>
-      <BillTable bills={billsInCommittee} />
+      <div className="note">Committees serve as a first line of review, deciding which bills to advance for floor debate.</div>
+      <BillTable bills={billsInCommittee} displayLimit={15}/>
       
       <h4>Out of committee, awaiting floor debate</h4>
-      <BillTable bills={billsAwaitingFloorAction} />
+      <div className="note">Bills can sometimes be rereferred to a second committee.</div>
+      <BillTable bills={billsAwaitingFloorAction} displayLimit={5}/>
 
       <h4>Through floor debate</h4>
-      <div className="note">House floor debates occur before second reading votes. Bills don't officially pass the House until a final, third reading vote.</div>
-      <BillTable bills={billsThruFloorAction} />
+      <div className="note">Second reading votes, the first vote bills typically receive from the full House, occur following floor debate. Bills don't officially pass the House until a final, third reading vote.</div>
+      <BillTable bills={billsThruFloorAction} displayLimit={5}/>
 
-      <h3 id="senate-bills-in-house">Senate Bills before the House</h3>
-      <div>Bills passed by the Senate and transmitted to the House. House bills that have passed the House and to face consideration by the Senate <AnchorLink to="/senate#house-bills-in-senate">are listed here</AnchorLink>. </div>
-      <div></div>
-      <BillTable bills={senateBillsInHouse} />
+      <h2>House bills passed by the House</h2>
+      <div className="note"><AnchorLink to="/senate#house-bills-in-senate">Transmitted to the Senate</AnchorLink> for consideration.</div>
 
-      <h3 id="house-bills-in-reconciliation">House Bills in reconcilation</h3>
-      <div>House bills passed by the House and Senate with different text. Lawmakers must negotiate a single version of the bill that meets approval from both chambers.</div>
-      <BillTable bills={houseBillsInReconciliation} />
+      <h2 id="senate-bills-in-house">Senate bills before the House (in their second chamber)</h2>
+      <div className="note">Bills passed by the Senate and transmitted to the House for a second round of consideration.</div>
+      <h4>Transmitted to House</h4>
+      <BillTable bills={billsTransmittedToSecondChamber} displayLimit={5}/>
+      
+      <h4>In initial committees</h4>
+      <BillTable bills={billsInCommitteeSecondChamber} displayLimit={5}/>
+      
+      <h4>Out of committee, awaiting floor debate</h4>
+      <BillTable bills={billsAwaitingFloorActionSecondChamber} displayLimit={5}/>
 
-      <h3>House Bills passed to Governor</h3>
-      <div>Bills passed by both chambers and transmitted to the governor for his signature <AnchorLink to="/governor#governor-bills">are available here</AnchorLink>.</div>
+      <h4>Through floor debate</h4>
+      <BillTable bills={billsThruFloorActionSecondChamber} displayLimit={5}/>
 
-      <h3 is="house-bills-passed">House Bills passed</h3>
-      <BillTable bills={houseBillsPassed} />
+      
+      {/* <BillTable bills={senateBillsInHouse} displayLimit={5}/> */}
 
-      <h3 is="house-bills-dead">House Bills killed in process</h3>
-      <div>Bills tabled in committee are likely headed toward death but aren't classified as such until they miss a procedural deadline. In rare situations, dead bills can resurrected with supermajority votes.</div>
-      <BillTable bills={houseBillsDead} />
+      <h2>House bills passed by both chambers</h2>
+
+      <h4 id="house-bills-in-reconciliation">In reconcilation</h4>
+      <div className="note">House bills passed by the House and then passed by the Senate with amendments. If the House doesn't vote to accept the changes, lawmakers must negotiate a version of the bill that can pass both chambers.</div>
+      <BillTable bills={houseBillsInReconciliation} displayLimit={5}/>
+
+      <h4 id="house-bills-through-legislature">In administrative review</h4>
+      <div className="note">Bills in their final enrolling process before transmittal to the governor.</div>
+      <BillTable bills={houseBillsThruLegislature} displayLimit={5}/>
+
+      <h4>Transmitted to Governor</h4>
+      <div className="note">Bills passed by both chambers and transmitted to the governor for his signature <AnchorLink to="/governor#governor-bills">are available here</AnchorLink>.</div>
+
+      <h2 is="house-bills-passed">House Bills becoming law</h2>
+      <div className="note">Bills that have passed all three key procedural hurdles: The House, Senate and governor.</div>
+      <BillTable bills={houseBillsPassed} displayLimit={5}/>
+
+      <h2 is="house-bills-dead">House Bills killed in process</h2>
+      <div className="note">In rare situations, dead bills can resurrected with supermajority votes. Bills tabled in committee are often headed toward death but aren't classified as such until they miss a procedural deadline.</div>
+      <BillTable bills={houseBillsDead} displayLimit={5}/>
+
+      <h2>House resolutions and voter referendum proposals</h2>
+      <div className="note">House resolutions pass with approval from the House, while joint resolutions and voter referendum proposals need approval from the House and Senate. Resolutions and referendum proposals don't require approval from the governor.</div>
+      
+      <h4>Proposed</h4>
+      <BillTable bills={houseResolutionsProposed} displayLimit={5}/>
+
+      <h4>Passed</h4>
+      <BillTable bills={houseResolutionsPassed} displayLimit={5}/>
 
       <ContactUs />
 
@@ -125,8 +178,10 @@ export const query = graphql`
       edges {
         node {
           key
-          title
           identifier
+          title
+          label
+          type
           status {
             key
             step
@@ -140,8 +195,10 @@ export const query = graphql`
       edges {
         node {
           key
-          title
           identifier
+          title
+          label
+          type
           status {
             key
             step

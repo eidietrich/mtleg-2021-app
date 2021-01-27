@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
+import { titleCase } from '../config/utils'
+
 import DistrictMatcher from '../js/DistrictMatcher'
 
 const addressForm = css`
@@ -28,19 +30,45 @@ const message = css`
 const resultContainer = css`
     display: flex;
     flex-wrap: wrap;
-    margin: -0.5em;
+    /* margin: -0.5em; */
+
+    padding-bottom: 1px;
+    min-height: 8em;
+    background-color: #eee;
+`
+const placeholderCss = css`
+    display: flex;
+    height: 8em;
+    color: #aaa;
+    width: 100%;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
 `
 const resultItem = css`
     flex: 1 1 190px;
     margin: 0.5em;
-    border: 1px solid #ddd;
+    border: 1px solid #806F47;
+    background-color: #eae3d4;
     padding: 0.5em;
 `
 const resultLabel = css`
     font-weight: bold;
 `
-const resultName = css``
+const resultName = css`
+    font-size: 1.3em;
+    font-weight: bold;
+`
 
+const labelCss = css`margin-bottom: 0.2em;`
+
+const messageLineCss = css`
+    padding: 0.5em;
+    padding-top: 0em;
+    font-style: italic;
+    /* font-weight: bold; */
+`
+const errorLineCss = css``
 
 const defaultAddress = 'e.g. 1301 E 6th Ave, Helena'
 class DistrictLookup extends Component {
@@ -77,7 +105,7 @@ class DistrictLookup extends Component {
         const senator = lawmakers.find(lawmaker => lawmaker.district.key.replace(' ', '') === sd)
         console.log('rep', representative)
         this.setState({
-            matchedAddress: `TK wire this up`,
+            matchedAddress: location,
             errorMessage: null,
             representative,
             senator,
@@ -86,7 +114,7 @@ class DistrictLookup extends Component {
 
     handleFailedSubmit() {
         this.setState({
-            errorMessage: 'Not a valid Montana address',
+            errorMessage: 'Address search failed',
             matchedAddress: null,
             representative: null,
             senator: null,
@@ -94,22 +122,26 @@ class DistrictLookup extends Component {
     }
 
     render() {
-        const { representative, senator, errorMessage } = this.state
+        const { representative, senator, errorMessage, matchedAddress } = this.state
         return <div>
-            <div>Enter address</div>
+            <div css={labelCss}>Look up House and Senate representation by address</div>
             <div css={addressForm}>
                 <input css={textInput} type="address" value={this.state.value}
                     onChange={this.handleChange}
                     placeholder={defaultAddress} />
                 <button css={searchButton} onClick={this.handleSubmit}>Look up</button>
             </div>
-            <div>{errorMessage}</div>
+            {errorMessage && <div css={messageLineCss}>{errorMessage}</div>}
+            {matchedAddress && <div css={messageLineCss}>Districts for {matchedAddress}</div> }
             <div css={resultContainer}>
                 {
                     representative ? <LawmakerEntry lawmaker={representative} subtitle="House District"/> : null
                 }
                 {
                     senator ? <LawmakerEntry lawmaker={senator} subtitle="Senate District"/> : null
+                }
+                {
+                    (!representative && !senator) && <div css={placeholderCss}>Search results</div>
                 }
             </div>
         </div>

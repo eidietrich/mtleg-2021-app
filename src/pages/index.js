@@ -5,35 +5,39 @@ import Layout from '../components/Layout'
 import SEO from '../components/seo'
 
 import BillTable from '../components/BillTable'
-import Text from '../components/Text'
+
 import BillStatusOverview from '../components/BillStatusOverview'
 import InfoPopup from '../components/InfoPopup'
+import Newsletter from '../components/Newsletter'
+import ContactUs from '../components/ContactUs'
 
 import BillLookup from '../compositions/BillLookup'
 import LawmakerLookup from '../compositions/LawmakerLookup'
 import DistrictLookup from '../compositions/DistrictLookup'
 
+import { dateFormatLong } from '../config/utils'
 
 
-import { summary, about, mostRecentActionDate } from '../data/summary.json'
+import { summary, mostRecentActionDate, infoPopups } from '../data/summary.json'
 
 const Index = ({ data }) => {
   const keyBills = data.keyBills.edges.map(d => d.node)
   const allBills = data.allBills.edges.map(d => d.node)
   const allLawmakers = data.allLawmakers.edges.map(d => d.node)
   return <div>
-    <SEO title="The 2021 Montana Legislature" />
+    <SEO title="Overview" />
     <Layout>
-      <BillStatusOverview summary={summary} mostRecentActionDate={mostRecentActionDate} />
-      <InfoPopup label="How bills move through the Legislature">
-        <div>In order to become law, bills must be passed by their sponsor's chamber and then the other side of the Legislature. Bills passed by both houses must be reconciled if they've passed in different forms and then transmitted to the governor. The governor can sign a bill, issue a veto, or let bills become law without his signature. Lawmakers can override vetos with two-thirds majorities in both chambers.</div>
-        <div>Standard House and Senate resolutions are reviewed by their respective chamber. Joint resolutions must be passed by both. Neither type of resolution requires action by the governor.</div>
-      </InfoPopup>
+      <h2>The session as of {dateFormatLong(new Date(mostRecentActionDate))}</h2>
 
-      <h3 id="key-bill-status">Key bills</h3>
-      <div>Status of major legislation identified by MTFP reporters</div>
-      <BillTable bills={keyBills} />
+      <BillStatusOverview summary={summary} mostRecentActionDate={mostRecentActionDate} />
+
+      <InfoPopup info={infoPopups.find(d => d.key === 'bill-process')} />
+
+      <h2 id="key-bill-status">Key bills</h2>
+      <div className="note">Major legislation identified by MTFP reporters. Where ambiguous, official bill titles are annotated with plain language summaries.</div>
+      <BillTable bills={keyBills} displayLimit={15}/>
       
+      <Newsletter />
 
       <h3 id="find-bill">Find a bill</h3>
       <BillLookup bills={allBills} />
@@ -44,8 +48,7 @@ const Index = ({ data }) => {
       <h3 id="find-district">Find your district</h3>
       <DistrictLookup lawmakers={allLawmakers} />
 
-      <h3 id="about">About this project</h3>
-      <Text paragraphs={about.description} />
+      <ContactUs />
     </Layout>
   </div>
 }
@@ -95,5 +98,3 @@ export const query = graphql`
 `
 
 export default Index
-
-// TODO - Add page query for data necessary

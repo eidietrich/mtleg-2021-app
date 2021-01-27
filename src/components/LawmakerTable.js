@@ -81,7 +81,7 @@ const partyControlCss = party => css`
 `
 const col1 = css`min-width: 3em;`
 const col2 = css`
-    min-width: 11em;
+    min-width: 12em;
 
     @media screen and (max-width: 468px) {
         min-width: 8em;
@@ -89,7 +89,11 @@ const col2 = css`
     
 `
 const col3 = css`
-    min-width: 5.3em;
+    min-width: 4em;
+    text-align: right;
+`
+const col4 = css`
+    min-width: 5.5em;
     text-align: right;
 `
 
@@ -104,7 +108,7 @@ const LawmakerTable = ({ lawmakers }) => {
                     <th css={col1}>District</th>
                     <th css={col2}>Lawmaker</th>
                     <th css={col3}>Votes in majority</th>
-                    <th css={col3}>
+                    <th css={col4}>
                         <div>w/ most Rs</div>
                         <div>w/ most Ds</div>
                     </th>
@@ -132,7 +136,7 @@ const Row = ({ name, title, party, district, residence, votingSummary }) => {
         <td css={col3}>
             {percentFormat(fractionVotesWithMajority)}
         </td>
-        <td css={col3}>
+        <td css={col4}>
             <div>
                 <span css={colorGopCss}>{percentFormat(fractionVotesWithGopMajority)}</span> w/ Rs
             </div>

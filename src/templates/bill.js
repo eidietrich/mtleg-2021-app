@@ -9,6 +9,7 @@ import BillStatus from '../components/BillStatus'
 import LawmakerInline from '../components/LawmakerInline'
 import ContactUs from '../components/ContactUs'
 import LinksList from '../components/LinksList'
+import Newsletter from '../components/Newsletter'
 
 
 // import BillInfo from '../compositions/BillInfo'
@@ -47,6 +48,10 @@ const infoColContentCss = css`
   height: 2.2em;
   text-align: center;
 `
+const sponsorCss = css`
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+`
 
 const BillPage = props => {
   const {
@@ -60,7 +65,10 @@ const BillPage = props => {
     transmittalDeadline, secondHouseReturnIfAmendedDeadline, voteMajorityRequired
   } = bill
   return <div>
-    <SEO title={`${identifier}: ${title}`} />
+    <SEO 
+      title={`${identifier}: ${title}`}
+      description={`Bill details, sponsor, text, procedural status and more.`}
+    />
     <Layout>
       <h1>{identifier}: {title}</h1>
 
@@ -68,7 +76,7 @@ const BillPage = props => {
 
       <hr />
 
-      <div>
+      <div css={sponsorCss}>
         Sponsor: <LawmakerInline lawmaker={sponsor} />
       </div>
 
@@ -102,7 +110,20 @@ const BillPage = props => {
           <div css={infoColContentCss}>
             {
               fiscalNoteUrl ?
-                <span><a href={fiscalNoteUrl}>Available here</a></span>
+                <span><a href={fiscalNoteUrl} target="_blank" rel="noopener noreferrer">Available here</a></span>
+                : <span>None on file</span>
+            }
+          </div>
+        </div>
+
+        <div css={infoColCss}>
+          <div css={infoColLabelCss}>
+            Legal note
+          </div>
+          <div css={infoColContentCss}>
+            {
+              legalNoteUrl ?
+                <span><a href={legalNoteUrl}>Available here</a></span>
                 : <span>None on file</span>
             }
           </div>
@@ -111,50 +132,17 @@ const BillPage = props => {
         <div css={infoColCss}>
           <div css={infoColLabelCss}>Official bill page</div>
           <div css={infoColContentCss}>
-            <a href={lawsUrl}>In LAWS system</a>
+            <a href={lawsUrl}>In LAWS database</a>
           </div>
         </div>
-
-        {/* <div css={infoColCss}>
-          <div css={infoColLabelCss}>
-            Legal note
-          </div>
-          <div css={infoColContentCss}>
-            {
-              legalNoteUrl ?
-                <span>Available<a href={legalNoteUrl}> here</a></span>
-                : <span>None on file</span>
-            }
-          </div>
-        </div> */}
-
-        {/* <div css={infoColCss}>
-          <div >
-            <div css={infoColLabelCss}>1st chamber passage deadline:</div>
-            {transmittalDeadline}
-          </div>
-          <div>
-            <div css={infoColLabelCss}>2nd chamber passage deadline if amended:</div>
-            {secondHouseReturnIfAmendedDeadline}
-          </div>
-        </div>
-
-        <div css={infoColCss}>
-          <div css={infoColLabelCss}>Support needed to pass:</div>
-          {voteMajorityRequired}
-        </div> */}
 
       </div>
 
       <div className="note">
         { (voteMajorityRequired !== 'Simple') ? <span> Passage requires supermajority, {voteMajorityRequired}. </span> : null}
-        <span>Deadline for passing 1st chamber:  {dateFormat(new Date(transmittalDeadline))}. </span>
-        <span>Deadline for 1st chamber return if amended in 2nd: {dateFormat(new Date(secondHouseReturnIfAmendedDeadline))}.</span>
+        <span>Deadline for passing first chamber (the House for house bills and the Senate for senate bills):  {dateFormat(new Date(transmittalDeadline))}. </span>
+        <span>Deadline for first chamber return if amended in second: {dateFormat(new Date(secondHouseReturnIfAmendedDeadline))}.</span>
       </div>
-
-
-
-      {/* <div className="note">Source: <a href={lawsUrl}>Official bill page</a> in Montana LAWS database.</div> */}
 
       <Text paragraphs={bill.annotation} />
       
@@ -165,6 +153,8 @@ const BillPage = props => {
           <LinksList articles={articles}/>
         </div>
       }
+
+      <Newsletter />
 
       <BillActions actions={actions} lawsUrl={lawsUrl}/>
       

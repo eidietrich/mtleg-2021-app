@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { css } from '@emotion/react'
 
-const color = '#806f47'
+import Text from './Text'
+
+const color = '#444'
 const iconSvg = css`
     fill: white;
     position: relative;
@@ -27,11 +29,13 @@ const tipWrapperCss = css`
     padding: 0.2em 0.4em;
     background-color: ${color};
     color: white;
-    border-radius: 0.2em;
+    /* border-radius: 0.2em; */
     font-size: 1em;
 
-    width: 100%;
-    max-width: 600px;
+    margin: 0.5em;
+
+    width: 90%;
+    max-width: 400px;
 
     cursor: pointer;
 
@@ -45,6 +49,9 @@ const tipWrapperCss = css`
         margin-bottom: 0.5em;
     }
 `
+const isActiveCss = css`
+    color: #ddd;
+`
 const tipCss = css`
 
     position: absolute;
@@ -53,18 +60,31 @@ const tipCss = css`
     transform: translateX(-50%);
     padding: 6px;
     color: #222;
-    background: #EAE3DA;
+    background: #eee;
     font-size: 0.9em;
     line-height: 1.1;
     z-index: 100;
     /* white-space: nowrap; */
     border: 1px solid #666;
-    width: 100%;
+    width: 90%;
+    max-width: 400px;
 
     /* font-style: italic; */
     text-transform: none;
 
-    box-shadow: 2px 2px 3px #bbb;
+    box-shadow: 1px 1px 2px #444;
+
+    p {
+        font-family: futura-pt, Arial, Helvetica, sans-serif;
+        font-size: 1em;
+        line-height: 1.1em;
+        color: #444;
+        margin-top: 0.1em;
+
+        :last-of-type {
+            margin-bottom: 0.1em;
+        }
+    }
 
 
     /* CSS border triangles */
@@ -90,28 +110,34 @@ const bottomCss = css`
 `
 
 
-const InfoPopup = (props) => {
+const InfoPopup = ({info}) => {
     let timeout
     const [active, setActive] = useState(false)
 
-    const showTip = () => {
-        timeout = setTimeout(() => {
-            setActive(true)
-        }, props.delay || 400)
+    // const showTip = () => {
+    //     timeout = setTimeout(() => {
+    //         setActive(true)
+    //     }, props.delay || 400)
+    // }
+
+    // const hideTip = () => {
+    //     clearInterval(timeout)
+    //     setActive(false)
+    // }
+    
+    const toggleTip = () => {
+        setActive(!active)
     }
 
-    const hideTip = () => {
-        clearInterval(timeout)
-        setActive(false)
-    }
+    const { label, content, direction } = info
 
-    return <div css={tipWrapperCss} onMouseEnter={showTip} onMouseLeave={hideTip}>
+    return <div css={[tipWrapperCss, active ? isActiveCss : null ]} onClick={toggleTip}>
         {questionMarkSvg}
-        {props.label}
+        {label}
         {
             (active) && (
-                <div css={[tipCss, props.direction || bottomCss]}>
-                    {props.children}
+                <div css={[tipCss, direction || bottomCss]}>
+                    <Text paragraphs={content} />
                 </div>
             )
         }

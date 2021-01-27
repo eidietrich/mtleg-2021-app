@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/react'
 
+import InfoPopup from '../components/InfoPopup'
+
+import { infoPopups } from '../data/summary.json'
+
 import {
   dateFormat,
   parseDate
@@ -104,6 +108,7 @@ class BillActions extends Component {
       .map((d, i) => Action(d, String(i), showVotes))
     return <div>
       <h3>Legislative actions</h3>
+      <InfoPopup info={infoPopups.find(d => d.key === 'bill-process')} />
       <div className="note">
         {
           showMinorActions ?
@@ -129,7 +134,19 @@ class BillActions extends Component {
           {rows}
         </tbody>
       </table>
-      <div className="note">Note: This display may not fully represent more arcane procedural maneuvers. See the bill's <a href={lawsUrl}>page in LAWS</a> for an official reference.</div>
+      <div className="note">
+        {
+          showMinorActions ?
+            'Showing all recorded bill actions. '
+            : 'Showing major bill actions only. '
+        }
+        <button css={inlineButtonCss} onClick={this.toggleShowMinorActions}>
+          {
+            showMinorActions ? 'See fewer' : 'See all.'
+          }
+        </button>
+      </div>
+      <div className="note">See the bill's <a href={lawsUrl}>page in LAWS</a> for an official reference.</div>
 
     </div>
   }

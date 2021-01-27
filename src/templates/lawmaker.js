@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import SEO from "../components/seo"
 import Text from '../components/Text'
 import ContactUs from '../components/ContactUs'
+import Newsletter from '../components/Newsletter'
 
 import BillTable from '../components/BillTable'
 import LinksList from '../components/LinksList'
@@ -29,7 +30,7 @@ import {
 const topperBar = css`
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #473d29;
+  border: 1px solid #806F47;
   background-color: #eae3da;
   padding: 0.5em;
 `
@@ -66,6 +67,7 @@ const LawmakerPage = ({pageContext, data}) => {
     name,
     lastName,
     party,
+    chamber,
     district,
     residence,
     annotation,
@@ -80,12 +82,16 @@ const LawmakerPage = ({pageContext, data}) => {
   // console.log(portrait)
   const { portrait } = data
   const districtLabel = district.key
-  const color = partyColors('R')
+  const color = partyColors(party)
   const portraitTopper = css`
     border-top: 6px solid ${color};
   `
+  
   return <div>
-    <SEO title={`${title} ${name}, ${districtLabel}`} />
+    <SEO
+      title={`${title} ${name}, ${districtLabel}`}
+      description="Election history, sponsored bills, committee assignments and more."
+    />
     <Layout>
       <div css={topperBar}>
         <div css={[portraitColCss, portraitTopper]}>
@@ -100,19 +106,22 @@ const LawmakerPage = ({pageContext, data}) => {
       </div>
       <Text paragraphs={annotation} />
       <History lastName={lastName} history={legislativeHistory} />
+      
 
       <h3>{district.key} election results</h3>
       <LawmakerElectionHistory lawmaker={lawmaker} />
+
+      <LawmakerVotingSummary lawmaker={lawmaker} votingSummary={votingSummary} />
+
+      <Newsletter />
+
+      <h3>Bills sponsored</h3>
+      <BillTable bills={sponsoredBills}/>
 
       <h3>Committee assignments</h3>
       <ul>
           {committees.map(c => <li key={c.committee}>{c.committee}{(c.role != 'Member') ? ` - ${c.role}` : null}</li>)}
       </ul>
-      
-      <h3>Bills sponsored</h3>
-      <BillTable bills={sponsoredBills}/>
-
-      <LawmakerVotingSummary lawmaker={lawmaker} votingSummary={votingSummary} />
 
       {
         (articles.length > 0) && <div>

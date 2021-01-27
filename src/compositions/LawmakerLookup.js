@@ -18,7 +18,6 @@ class LawmakerLookup extends Component {
 
     searchByName(input) {
         const { lawmakers } = this.props
-        console.log(input, standardize(input))
         if (input.length < 3) {
             this.setState({
                 lawmakersFound: []
@@ -38,7 +37,7 @@ class LawmakerLookup extends Component {
     render() {
         const { lawmakersFound } = this.state
         return <div>
-            <div>Search by name</div>
+            <div css={labelCss}>Type to search by name</div>
             <TextInput
                 handleInput={this.searchByName}
                 placeholder='e.g. Wylie Galt'
@@ -46,6 +45,9 @@ class LawmakerLookup extends Component {
             <div css={resultContainer}>
                 {
                     lawmakersFound.map(lawmaker => <LawmakerEntry key={lawmaker.key} lawmaker={lawmaker} />)
+                }
+                {
+                    (lawmakersFound.length === 0) && <div css={placeholderCss}>Search results</div>
                 }
             </div>
         </div>
@@ -55,18 +57,37 @@ class LawmakerLookup extends Component {
 const resultContainer = css`
     display: flex;
     flex-wrap: wrap;
-    margin: -0.5em;
+    /* margin: -0.5em; */
+
+    padding-bottom: 1px;
+    min-height: 8em;
+    background-color: #eee;
 `
 const resultItem = css`
     flex: 1 1 190px;
     margin: 0.5em;
-    border: 1px solid #ddd;
     padding: 0.5em;
+    max-width: 200px;
+    border: 1px solid #806F47;
+    background-color: #eae3d4;
+`
+const placeholderCss = css`
+    display: flex;
+    height: 8em;
+    color: #aaa;
+    width: 100%;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
 `
 const resultLabel = css`
     font-weight: bold;
 `
-const resultName = css``
+const resultName = css`
+    font-size: 1.2em;
+    font-weight: bold;
+`
+const labelCss = css`margin-bottom: 0.2em;`
 
 const LawmakerEntry = ({ lawmaker }) => {
     const { key, title, name, party, district, residence } = lawmaker

@@ -22,7 +22,8 @@ const pullStatContainerStyle = css`
   flex-wrap: wrap;
   justify-content: space-around;
 
-  border: 1px solid #ddd;
+  border: 1px solid #806F47;
+  background-color: #EAE3DA;
   padding: 0.5em;
   margin-bottom: 0.5em;
 
@@ -55,11 +56,10 @@ const labelStyle = css`
 `
 
 const LawmakerVotingSummary = ({lawmaker, votingSummary}) => {
-  // console.log('xx', votingSummary)
   return <div>
       <h3>Voting statistics</h3>
       
-      <div css={textStyle}>Of {numberFormat(votingSummary.numVotesCast)} {capitalize(lawmaker.chamber)} floor votes:</div>
+      <div css={textStyle}>Of {numberFormat(votingSummary.numVotesCast)} {capitalize(lawmaker.chamber)} floor votes involving bills:</div>
       <div css={pullStatContainerStyle}>
         <div>
           <span css={pullStatStyle}>{percentFormat(votingSummary.fractionVotesWithMajority)}</span>

@@ -29,9 +29,13 @@ export const tableStyle = css`
         /* border-bottom: 1px solid #ddd; */
         border-bottom: 1px solid #473d29;
         margin: 0 0.2em;
+
+        :first-of-type {
+            border-top: 1px solid #473d29;
+        }
     }
     td {
-        padding: 0.2em 0.5em;
+        padding: 0.5em 0.5em;
     }
     th {
         font-weight: normal;

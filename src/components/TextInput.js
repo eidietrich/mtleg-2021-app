@@ -7,8 +7,8 @@ const searchFormCss = css`
     margin-bottom: 1em;
 `
 const inputCss = css`
-    flex: 4 1 100%;
     height: 2em;
+    flex: 4 1 100%;
 `
 
 // Simple text input form with self-contained state management

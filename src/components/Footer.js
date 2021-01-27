@@ -10,7 +10,7 @@ const footerStyle = css`
     display: block;
 
     font-family: futura-pt, Arial, Helvetica, sans-serif;
-    background: #000;
+    background: #171818;
     color: #fff;
 
     @media (min-width: 782px) {

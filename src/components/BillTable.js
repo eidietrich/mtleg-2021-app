@@ -69,7 +69,7 @@ class BillTable extends Component {
     // console.log(bills)
 
     if (bills.length === 0) {
-      return <div css={[noteStyle, css`color: #806f47;`]}>No bills at present</div>
+      return <div css={noteStyle}>None at present</div>
     }
     const sorted = bills.sort(DEFAULT_SORT)
 
@@ -84,21 +84,23 @@ class BillTable extends Component {
 
     return <div>
       <table css={tableStyle}>
-        <thead>
+        {/* <thead>
           <tr>
             <th>Bill</th>
             <th>Status</th>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>{rows}</tbody>
       </table>
       <div css={noteStyle}>
-        <span>Showing {renderBills.length} of {bills.length}. </span>
+        <span>Showing {renderBills.length} of {bills.length}</span>
         {
           (bills.length > displayLimit) &&
+            <span><span>. </span>
             <button css={inlineButtonCss} onClick={this.toggleDisplayLimit}>
               {  isTruncated ? 'See all.' : 'See fewer.' }
             </button>
+            </span>
         }
         
       </div>

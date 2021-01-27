@@ -7,7 +7,6 @@ import { partyColors } from '../config/config'
 import { lawmakerUrl } from '../config/utils'
 
 const spanStyle = css`
-  /* display: inline-block; */
   
 `
 const tag = css`

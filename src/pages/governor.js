@@ -7,10 +7,18 @@ import Text from '../components/Text'
 import LinksList from '../components/LinksList'
 import ContactUs from '../components/ContactUs'
 import BillTable from '../components/BillTable'
+import Newsletter from '../components/Newsletter'
 
 import { text, articles } from '../data/governor.json'
 import { summary, mostRecentActionDate } from '../data/summary.json'
 import { numberFormat, dateFormat } from "../config/utils"
+
+// filter functions
+// const toGovernor = d => d.data.progress.toGovernor
+const awaitingGovernorAction = d => d.progress.governorStatus === 'pending'
+const signedByGovernor = d => d.progress.governorStatus === 'signed'
+const vetoedByGovernor = d => d.progress.governorStatus === 'vetoed'
+const enactedWithNoGovernorSignature = d => d.progress.governorStatus === 'became law unsigned'
 
 const Governor = ({data}) => {
   const numBillsBeforeGov = summary.houseBills.toGovernor + summary.senateBills.toGovernor
@@ -18,27 +26,37 @@ const Governor = ({data}) => {
 
   const governorBills = data.governorBills.edges.map(d => d.node)
 
+  const awaitingActionBills = governorBills.filter(awaitingGovernorAction)
+  const signedBills = governorBills.filter(signedByGovernor)
+  const vetoedBills = governorBills.filter(vetoedByGovernor)
+  const letBecomeLawBills = governorBills.filter(enactedWithNoGovernorSignature)
+
   return <div>
-    <SEO title="Governor Greg Gianforte" />
+    <SEO
+      title="Montana Gov. Greg Gianforte"
+      description="How Montana's first Republican governor since 2005 is treating the bills passed to his desk."
+    />
     <Layout>
       <h1>Gov. Greg Gianforte</h1>
       <Text paragraphs={text.description} />
 
-      <h3 id="governor-bills">On the governor's desk</h3>
+      <h2 id="governor-bills">The governor's desk</h2>
       <p>As of {dateFormat(new Date(mostRecentActionDate))}, <strong>{numberFormat(numBillsBeforeGov)} bill{plural}</strong> from the 2021 Legislature had been sent to Gov. Gianforte for his signature.</p>
-      <h4>Bills currently before the Governor</h4>
-      <BillTable bills={governorBills} />
+      <h4>Currently before the governor</h4>
+      <BillTable bills={awaitingActionBills} />
       
       <h4>Signed into law</h4>
-      <div>TK</div>
+      <BillTable bills={signedBills} />
 
-      <h4>Let pass without signature</h4>
-      <div>Bills that have become law without the governor's signature after the Governor chooses not to issue a signature or veto by the deadlines specified in the Montana Constitution, 5 days if the Legislature is in sessiona and 25 days if it isn't.</div>
-      <div>TK</div>
+      <h4>Became law without signature</h4>
+      <div className="note">Bills that have become law without the governor's signature after the governor chooses not to issue a signature or a veto by the deadlines specified in the Montana Constitution: 5 days if the Legislature is in session, and 25 days if it isn't.</div>
+      <BillTable bills={letBecomeLawBills} />
 
       <h4>Vetoed</h4>
-      <div>The Montana Constitution requires that the governor provide explanation for his vetos. Vetos can be overridden by two-thirds majorities in the House and Senate.</div>
-      <div>TK - include veto memos, veto override attempts here </div>
+      <div className="note">The Montana Constitution requires that the governor provide explanation for vetos. Vetos can be overridden by two-thirds majorities in the House and Senate.</div>
+      <BillTable bills={vetoedBills} />
+
+      <Newsletter />
 
       <h3>News coverage</h3>
       <div>MTFP legislative coverage involving the Governor's Office</div>
@@ -63,6 +81,10 @@ export const query = graphql`
             step
             label
             status
+          }
+          progress {
+            toGovernor
+            governorStatus
           }
         }
       }
