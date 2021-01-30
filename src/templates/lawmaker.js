@@ -50,6 +50,11 @@ const residenceLineCss = css``
 const districtLineCss = css`
   font-size: 0.9em;
 `
+const localeLineCss = css`
+  font-size: 0.9em;
+  font-style: italic;
+  color: #444;
+`
 
 const getPartyLabel = (key) => {
   return {
@@ -69,7 +74,7 @@ const LawmakerPage = ({pageContext, data}) => {
     party,
     chamber,
     district,
-    residence,
+    locale,
     annotation,
     committees,
     legislativeHistory,
@@ -99,8 +104,9 @@ const LawmakerPage = ({pageContext, data}) => {
         </div>
         <div css={infoCol}>
           <h1>{title} {name}</h1>
-          <div css={residenceLineCss}>{getPartyLabel(party)} of {residence}</div>
+          <div css={residenceLineCss}>{getPartyLabel(party)}</div>
           <div css={districtLineCss}>Representing {districtLabel}</div>
+          <div css={localeLineCss}>{locale.long}</div>
           
         </div>
       </div>

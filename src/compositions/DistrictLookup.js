@@ -152,7 +152,7 @@ class DistrictLookup extends Component {
 }
 
 const LawmakerEntry = ({ lawmaker, subtitle }) => {
-    const { key, title, name, party, district, residence } = lawmaker
+    const { key, title, name, party, district, locale } = lawmaker
     const districtKey = district.key
     return <div css={resultItem}>
         <div>{subtitle}</div>
@@ -160,7 +160,7 @@ const LawmakerEntry = ({ lawmaker, subtitle }) => {
         <div css={resultName}>
             <Link to={`/lawmakers/${key}`}>{title} {name}</Link>
         </div>
-        <div>({party}-{residence})</div>
+        <div>({party}-{locale.short})</div>
     </div>
 }
 

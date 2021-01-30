@@ -32,14 +32,14 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     bills.forEach(bill => {
         const key = bill.key
         const sponsor = lawmakers.find(lawmaker => lawmaker.name === bill.sponsor)
-        const { title, name, district, party, residence } = sponsor
+        const { title, name, district, party, locale } = sponsor
         createPage({
             path: `/bills/${key}`,
             component: require.resolve('./src/templates/bill.js'),
             context: {
                 bill,
                 // Abbreviated info on sponsor for sake of data bundle size
-                sponsor: { key, title, name, district, party, residence }
+                sponsor: { key, title, name, district, party, locale }
             },
         })
     })

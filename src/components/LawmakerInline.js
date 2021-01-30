@@ -5,6 +5,7 @@ import { css } from '@emotion/react'
 import { partyColors } from '../config/config'
 
 import { lawmakerUrl } from '../config/utils'
+import { locale } from 'moment';
 
 const spanStyle = css`
   
@@ -36,7 +37,7 @@ const residenceCss = css`
 `
 
 const LawmakerInline = ({lawmaker}) => {
-  const { name, party, district, residence } = lawmaker
+  const { name, party, district, locale } = lawmaker
   const partyColor = partyColors(party)
   const tagPartyStyle = css`
     border: 1px solid ${partyColor};
@@ -51,7 +52,7 @@ const LawmakerInline = ({lawmaker}) => {
       <span css={tagDistrict}>{district.key}</span>
       
     </span>
-    <span css={residenceCss}>({residence})</span>
+    <span css={residenceCss}>({locale.short})</span>
   </Link>
 };
 

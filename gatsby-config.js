@@ -6,7 +6,7 @@
 
 module.exports = {
   siteMetadata: {
-    title: `2021 Capitol Tracker | Montana Free Press`,
+    title: `2021 Montana Capitol Tracker`,
     description: `A digital guide to the lawmakers, bills and votes shaping Montana's future through the 2021 Montana Legislature`,
     author: `Eric Dietrich / Montana Free Press`,
     siteUrl: `https://www.apps.montanafreepress.org/capitol-tracker-2021/`,

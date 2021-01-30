@@ -120,7 +120,7 @@ const LawmakerTable = ({ lawmakers }) => {
     </div>
 };
 
-const Row = ({ name, title, party, district, residence, votingSummary }) => {
+const Row = ({ name, title, party, district, locale, votingSummary }) => {
     const districtLabel = district.key
     // console.log(votingSummary)
     const { numVotesRecorded, fractionVotesWithMajority, fractionVotesWithGopMajority, fractionVotesWithDemMajority } = votingSummary
@@ -131,7 +131,7 @@ const Row = ({ name, title, party, district, residence, votingSummary }) => {
         </td>
         <td css={[col2]}>
             <div css={tableLinkStyle}><Link to={`/lawmakers/${lawmakerUrl(name)}`}>{name}</Link></div>
-            <div>{party}-{residence}</div>
+            <div>{party}-{locale.short}</div>
         </td>
         <td css={col3}>
             {percentFormat(fractionVotesWithMajority)}

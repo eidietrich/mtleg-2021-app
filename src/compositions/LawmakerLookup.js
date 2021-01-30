@@ -90,13 +90,13 @@ const resultName = css`
 const labelCss = css`margin-bottom: 0.2em;`
 
 const LawmakerEntry = ({ lawmaker }) => {
-    const { key, title, name, party, district, residence } = lawmaker
+    const { key, title, name, party, district, locale } = lawmaker
     return <div css={resultItem}>
         <div css={resultLabel}>{district.key}</div>
         <div css={resultName}>
             <Link to={`/lawmakers/${key}`}>{title} {name}</Link>
         </div>
-        <div>({party}-{residence})</div>
+        <div>({party}-{locale.short})</div>
     </div>
 }
 

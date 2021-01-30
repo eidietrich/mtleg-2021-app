@@ -80,7 +80,9 @@ export const query = graphql`
       key
     }
           party
-          residence
+          locale {
+            short
+          }
         }
       }
     }
