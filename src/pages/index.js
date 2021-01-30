@@ -2,21 +2,18 @@ import React from "react"
 import { graphql } from 'gatsby'
 
 import Layout from '../components/Layout'
-import SEO from '../components/seo'
-
+import SEO from '../components/Seo'
 import BillTable from '../components/BillTable'
-
-import BillStatusOverview from '../components/BillStatusOverview'
 import InfoPopup from '../components/InfoPopup'
 import Newsletter from '../components/Newsletter'
 import ContactUs from '../components/ContactUs'
 
-import BillLookup from '../compositions/BillLookup'
-import LawmakerLookup from '../compositions/LawmakerLookup'
-import DistrictLookup from '../compositions/DistrictLookup'
+import BillStatusOverview from '../components/overview/BillStatuses'
+import BillLookup from '../components/input/BillLookup'
+import LawmakerLookup from '../components/input/LawmakerLookup'
+import DistrictLookup from '../components/input/DistrictLookup'
 
 import { dateFormatLong } from '../config/utils'
-
 
 import { summary, mostRecentActionDate, infoPopups } from '../data/summary.json'
 

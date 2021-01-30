@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
 import { 
@@ -24,10 +23,6 @@ const tableContainerCss = css`
   margin: 0.5em;
 `
 
-const simpleLine = d => <li key={d.key}><Link to={`/lawmakers/${d.key}`}>
-  {d.district}: <strong>{d.name}</strong> ({d.party}-{d.residence})
-</Link></li>
-
 const Roster = (props) => {
   const { title, lawmakers, chamberLabel } = props
   const numVotesRecorded = lawmakers.map(d => d.votingSummary.numVotesRecorded)[1]
@@ -49,6 +44,5 @@ const Roster = (props) => {
     
   </div>
 }
-
 
 export default Roster

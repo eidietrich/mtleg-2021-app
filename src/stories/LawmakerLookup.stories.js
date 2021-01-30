@@ -1,11 +1,11 @@
 import React from 'react';
 
-import LawmakerLookup from './LawmakerLookup';
+import LawmakerLookup from '../components/input/LawmakerLookup';
 
 import lawmakers from '../data/lawmakers.json'
 
 export default {
-  title: 'Compositions/LawmakerLookup',
+  title: 'Inputs/LawmakerLookup',
   component: LawmakerLookup,
 };
 

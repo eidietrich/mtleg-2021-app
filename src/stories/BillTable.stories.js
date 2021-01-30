@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BillTable from './BillTable';
+import BillTable from '../components/BillTable';
 
 import bills from '../data/bills.json'
 
@@ -18,9 +18,9 @@ FiveBills.args = {
     bills: bills.slice(100,105),
 };
 
-export const AllBills = Template.bind({});
-AllBills.args = {
-    bills: bills,
+export const OneHundredBill = Template.bind({});
+OneHundredBill.args = {
+    bills: bills.slice(5,105),
 };
 
 export const NoBills = Template.bind({});

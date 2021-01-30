@@ -1,68 +1,26 @@
 import React from "react";
-import { css } from '@emotion/react'
+import PropTypes from 'prop-types'
 
 import Layout from '../components/Layout'
-import SEO from "../components/seo"
-
+import SEO from "../components/Seo"
 import Text from '../components/Text'
-import BillStatus from '../components/BillStatus'
-import LawmakerInline from '../components/LawmakerInline'
+
 import ContactUs from '../components/ContactUs'
 import LinksList from '../components/LinksList'
 import Newsletter from '../components/Newsletter'
 
+import BillStatus from '../components/bill/Status'
+import BillInfo from '../components/bill/Info'
+import BillActions from '../components/bill/Actions'
 
-// import BillInfo from '../compositions/BillInfo'
-import BillActions from '../compositions/BillActions'
-import BillCoverage from '../compositions/BillCoverage'
-
-import {
-  dateFormat,
-} from '../config/utils'
-
-const infoRowCss = css`
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -0.125em;
-  margin-right: 0.125em;
-`
-const infoColCss = css`
-  flex: 1 1 100px;
-  border: 1px solid #AE9864;
-  padding: 0.25em;
-  margin: 0.125em;
-
-  background-color: #EAE3DA;
-`
-const infoColLabelCss = css`
-  font-size: 0.8em;
-  text-transform: uppercase;
-  /* font-weight: bold; */
-  color: #736440;
-  margin-bottom: 0.25em;
-`
-const infoColContentCss = css`
-  color: #222;
-  display: flex;
-  align-items: center;
-  height: 2.2em;
-  text-align: center;
-`
-const sponsorCss = css`
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
-`
-
-const BillPage = props => {
+const BillPage = (props) => {
   const {
-    // key,
     bill,
     sponsor,
   } = props.pageContext
   const {
-    identifier, title, status, lawsUrl, textUrl, fiscalNoteUrl,
-    legalNoteUrl, articles, actions,
-    transmittalDeadline, secondHouseReturnIfAmendedDeadline, voteMajorityRequired
+    identifier, title, status,
+    lawsUrl, articles, actions,
   } = bill
   return <div>
     <SEO 
@@ -76,73 +34,7 @@ const BillPage = props => {
 
       <hr />
 
-      <div css={sponsorCss}>
-        Sponsor: <LawmakerInline lawmaker={sponsor} />
-      </div>
-
-      <div css={infoRowCss}>
-        {/* <div css={infoColCss}>
-          <div css={infoColLabelCss}>
-            Sponsor
-          </div>
-          <div css={infoColContentCss}>
-            <LawmakerInline lawmaker={sponsor} />
-          </div>
-        </div> */}
-
-        <div css={infoColCss}>
-          <div css={infoColLabelCss}>
-            Bill text
-          </div>
-          <div css={infoColContentCss}>
-            {
-              textUrl ?
-                <span><a href={textUrl}>Available here</a></span>
-                : <span>Not available</span>
-            }
-          </div>
-        </div>
-
-        <div css={infoColCss}>
-          <div css={infoColLabelCss}>
-            Fiscal note
-          </div>
-          <div css={infoColContentCss}>
-            {
-              fiscalNoteUrl ?
-                <span><a href={fiscalNoteUrl} target="_blank" rel="noopener noreferrer">Available here</a></span>
-                : <span>None on file</span>
-            }
-          </div>
-        </div>
-
-        <div css={infoColCss}>
-          <div css={infoColLabelCss}>
-            Legal note
-          </div>
-          <div css={infoColContentCss}>
-            {
-              legalNoteUrl ?
-                <span><a href={legalNoteUrl}>Available here</a></span>
-                : <span>None on file</span>
-            }
-          </div>
-        </div>
-
-        <div css={infoColCss}>
-          <div css={infoColLabelCss}>Official bill page</div>
-          <div css={infoColContentCss}>
-            <a href={lawsUrl}>In LAWS database</a>
-          </div>
-        </div>
-
-      </div>
-
-      <div className="note">
-        { (voteMajorityRequired !== 'Simple') ? <span> Passage requires supermajority, {voteMajorityRequired}. </span> : null}
-        <span>Deadline for passing first chamber (the House for house bills and the Senate for senate bills):  {dateFormat(new Date(transmittalDeadline))}. </span>
-        <span>Deadline for first chamber return if amended in second: {dateFormat(new Date(secondHouseReturnIfAmendedDeadline))}.</span>
-      </div>
+      <BillInfo bill={bill} sponsor={sponsor}/>
 
       <Text paragraphs={bill.annotation} />
       
@@ -163,16 +55,76 @@ const BillPage = props => {
   </div>;
 };
 
-// // TODO - update this once done prototyping
-// BillPage.propTypes = {
-//   identifier: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-//   status: PropTypes.string.isRequired,
-//   sponsor: PropTypes.string.isRequired,
-//   lawsUrl: PropTypes.string.isRequired,
-//   textUrl: PropTypes.string,
-//   fiscalNoteUrl: PropTypes.string,
-//   legalNoteUrl: PropTypes.string,
-// }
+// Validate page data in effort to catch data parsing errors
+BillPage.propTypes = {
+  pageContext: PropTypes.exact({
+
+    bill: PropTypes.exact({
+      actions: PropTypes.array.isRequired,
+      annotation: PropTypes.array.isRequired,
+      articles: PropTypes.array.isRequired,
+      chamber: PropTypes.oneOf(['house','senate']),
+      identifier: PropTypes.string.isRequired,
+      isMajorBill: PropTypes.oneOf(['yes', 'no']).isRequired, // Why is this not a bool?
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string,
+      lawsUrl: PropTypes.string.isRequired,
+      fiscalNoteExpected: PropTypes.oneOf(['Yes', 'No']).isRequired, // Why is this not a bool?
+      fiscalNoteUrl: PropTypes.string,
+      legalNoteUrl:  PropTypes.string,
+      requestor: PropTypes.string,
+      secondHouseReturnIfAmendedDeadline: PropTypes.string.isRequired,
+      session: PropTypes.oneOf(['2021']),
+      sponsor: PropTypes.string.isRequired,
+
+      status: PropTypes.exact({
+        key: PropTypes.string.isRequired,
+        step: PropTypes.oneOf(['First chamber', 'Second chamber','Reconciliation','Through Legislature','Governor','Failed','Passed']).isRequired,
+        label: PropTypes.string.isRequired,
+        status: PropTypes.oneOf(['live','stalled','became-law']).isRequired,
+      }),
+      progress: PropTypes.exact({
+        // TODO - This data structure badly needs a rework
+        passagesNeeded: PropTypes.string, // only placeholder currently
+        finalOutcome: PropTypes.string, // some of these can be null sometimes?
+        firstChamberStatus: PropTypes.string,
+        governorStatus: PropTypes.string,
+        secondChamberStatus: PropTypes.string,
+        toFirstChamber: PropTypes.bool.isRequired,
+        outOfInitialCommittee: PropTypes.bool.isRequired,
+        toSecondChamber: PropTypes.bool.isRequired,
+        toGovernor: PropTypes.bool.isRequired,
+        
+      }),
+      subjects: PropTypes.array.isRequired,
+      textUrl: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      transmittalDeadline: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['bill', 'resolution', 'joint resolution', 'referendum proposal']).isRequired,
+      voteMajorityRequired: PropTypes.oneOf(['Simple', '2/3 of Entire Legislature', '2/3 of Each House', '3/4 of Each House']).isRequired,
+    }),
+
+    sponsor: PropTypes.exact({
+      key: PropTypes.string,
+      district: PropTypes.shape({
+        last_election: PropTypes.string.isRequired,
+        pri_elex: PropTypes.shape({
+          leg: PropTypes.arrayOf(PropTypes.object).isRequired
+        }),
+        gen_elex: PropTypes.shape({
+          leg: PropTypes.arrayOf(PropTypes.object).isRequired,
+          gov: PropTypes.arrayOf(PropTypes.object).isRequired,
+        }),
+        locale: PropTypes.string.isRequired,
+        locale_description: PropTypes.string.isRequired,
+      }),
+      locale: PropTypes.object.isRequired,
+      name: PropTypes.string.isRequired,
+      party: PropTypes.oneOf(['R', 'D']),
+      title: PropTypes.string.isRequired,
+    }),
+  }).isRequired
+  
+}
 
 export default BillPage;

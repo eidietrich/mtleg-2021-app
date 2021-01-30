@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
-import { titleCase } from '../config/utils'
-
-import DistrictMatcher from '../js/DistrictMatcher'
+import DistrictMatcher from '../../js/DistrictMatcher'
 
 const addressForm = css`
     display: flex;
@@ -22,11 +20,6 @@ const searchButton = css`
     margin: -1px;
     flex: 1 1 auto;
 `
-const message = css`
-    font-style: italic;
-    font-size: 0.8em;
-`
-
 const resultContainer = css`
     display: flex;
     flex-wrap: wrap;
@@ -66,9 +59,7 @@ const messageLineCss = css`
     padding: 0.5em;
     padding-top: 0em;
     font-style: italic;
-    /* font-weight: bold; */
 `
-const errorLineCss = css``
 
 const defaultAddress = 'e.g. 1301 E 6th Ave, Helena'
 class DistrictLookup extends Component {

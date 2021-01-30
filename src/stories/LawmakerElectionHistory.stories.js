@@ -1,11 +1,11 @@
 import React from 'react';
 
-import LawmakerElectionHistory from './LawmakerElectionHistory';
+import LawmakerElectionHistory from '../components/lawmaker/ElectionHistory';
 
 import lawmakers from '../data/lawmakers.json'
 
 export default {
-  title: 'Components/LawmakerElectionHistory',
+  title: 'Lawmaker/ElectionHistory',
   component: LawmakerElectionHistory,
 };
 

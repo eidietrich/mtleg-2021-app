@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from '@emotion/react'
 
-import { numberFormat } from '../config/utils'
+import { numberFormat } from '../../config/utils'
 
 const containerCss = css`
     border: 1px solid red;
@@ -9,7 +9,6 @@ const containerCss = css`
     border: 1px solid #806F47;
     padding: 1em;
 `
-
 const rowCss = css`
     display: flex;
     flex-wrap: wrap;
@@ -21,11 +20,10 @@ const rowCss = css`
     :first-of-type {
         border-top: none;
     }
-    
+   
 `
 
 const subColCss = css`
-    /* border: 1px solid red; */
     flex: 1 0 4em;
     margin-right: 0.5em;
 `

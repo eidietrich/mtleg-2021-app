@@ -3,9 +3,7 @@ import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
 import { partyColors } from '../config/config'
-
 import { lawmakerUrl } from '../config/utils'
-import { locale } from 'moment';
 
 const spanStyle = css`
   

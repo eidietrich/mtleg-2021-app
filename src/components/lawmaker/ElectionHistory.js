@@ -7,8 +7,8 @@ import {
     numberFormat,
     percentFormat,
     capitalize
-} from '../config/utils'
-import { partyColors } from '../config/config'
+} from '../../config/utils'
+import { partyColors } from '../../config/config'
 
 const sectionCss = css`
     background-color: #eae3da;

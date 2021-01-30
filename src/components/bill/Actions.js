@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import { css } from '@emotion/react'
 
-import InfoPopup from '../components/InfoPopup'
+import InfoPopup from '../InfoPopup'
 
-import { infoPopups } from '../data/summary.json'
+import { infoPopups } from '../../data/summary.json'
 
 import {
   dateFormat,
   parseDate
-} from '../config/utils'
+} from '../../config/utils'
 
 import {
   tableStyle
-} from '../config/styles'
+} from '../../config/styles'
 
 import {
   partyColors,
   positionColors
-} from '../config/config'
+} from '../../config/config'
 
 /*
 Design needs needs:
@@ -152,7 +152,9 @@ class BillActions extends Component {
   }
 }
 const Action = (action, key, showVotes) => {
-  const { committee, description, vote, voteUrl, date, watchListenUrls, isHighlight, classification } = action
+  const { committee, description, vote, voteUrl, date, watchListenUrls, isHighlight,
+    //  classification
+  } = action
   const { thresholdRequired } = (vote || {})
   return <tr key={key} css={isHighlight ? highlightRow : null}>
     <td css={dateCss}>{dateFormat(parseDate(date))}</td>

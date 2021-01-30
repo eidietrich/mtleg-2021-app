@@ -3,21 +3,18 @@ import { graphql } from "gatsby"
 import { css } from '@emotion/react'
 
 import Layout from '../components/Layout'
-import SEO from "../components/seo"
+import SEO from "../components/Seo"
 import Text from '../components/Text'
 import ContactUs from '../components/ContactUs'
 import Newsletter from '../components/Newsletter'
 
 import BillTable from '../components/BillTable'
 import LinksList from '../components/LinksList'
-import LawmakerPortrait from '../components/LawmakerPortrait'
-import LawmakerElectionHistory from '../components/LawmakerElectionHistory'
 
-import LawmakerCommittees from '../compositions/LawmakerCommittees'
-// import LawmakerBills from '../compositions/LawmakerBills'
-import LawmakerVotingSummary from '../compositions/LawmakerVotingSummary'
-import LawmakerVotes from '../compositions/LawmakerVotes'
-import LawmakerCoverage from '../compositions/LawmakerCoverage'
+import LawmakerPortrait from '../components/lawmaker/Portrait'
+import LawmakerElectionHistory from '../components/lawmaker/ElectionHistory'
+import LawmakerCommittees from '../components/lawmaker/Commitees'
+import LawmakerVotingSummary from '../components/lawmaker/VotingSummary'
 
 import {
   listToText,
@@ -72,19 +69,15 @@ const LawmakerPage = ({pageContext, data}) => {
     name,
     lastName,
     party,
-    chamber,
     district,
     locale,
     annotation,
     committees,
     legislativeHistory,
-    votes,
     votingSummary,
     articles,
     sponsoredBills,
-    imageSlug
   } = lawmaker
-  // console.log(portrait)
   const { portrait } = data
   const districtLabel = district.key
   const color = partyColors(party)
@@ -125,9 +118,7 @@ const LawmakerPage = ({pageContext, data}) => {
       <BillTable bills={sponsoredBills}/>
 
       <h3>Committee assignments</h3>
-      <ul>
-          {committees.map(c => <li key={c.committee}>{c.committee}{(c.role != 'Member') ? ` - ${c.role}` : null}</li>)}
-      </ul>
+      <LawmakerCommittees committees={committees} />
 
       {
         (articles.length > 0) && <div>

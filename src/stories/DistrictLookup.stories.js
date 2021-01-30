@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DistrictLookup from './DistrictLookup';
+import DistrictLookup from '../components/input/DistrictLookup';
 
 import lawmakers from '../data/lawmakers.json'
 
 export default {
-  title: 'Compositions/DistrictLookup',
+  title: 'Inputs/DistrictLookup',
   component: DistrictLookup,
 };
 

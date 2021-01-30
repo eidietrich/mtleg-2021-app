@@ -111,19 +111,7 @@ const bottomCss = css`
 
 
 const InfoPopup = ({info}) => {
-    let timeout
     const [active, setActive] = useState(false)
-
-    // const showTip = () => {
-    //     timeout = setTimeout(() => {
-    //         setActive(true)
-    //     }, props.delay || 400)
-    // }
-
-    // const hideTip = () => {
-    //     clearInterval(timeout)
-    //     setActive(false)
-    // }
     
     const toggleTip = () => {
         setActive(!active)
@@ -131,7 +119,9 @@ const InfoPopup = ({info}) => {
 
     const { label, content, direction } = info
 
-    return <div css={[tipWrapperCss, active ? isActiveCss : null ]} onClick={toggleTip}>
+    return <div css={[tipWrapperCss, active ? isActiveCss : null ]} 
+        onClick={toggleTip}
+    >
         {questionMarkSvg}
         {label}
         {

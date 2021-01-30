@@ -1,5 +1,4 @@
 // Central storage point for reused styles
-import React from 'react';
 import { css } from '@emotion/react'
 
 export const containerStyle = css`

@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
 import {
   numberFormat,
   percentFormat,
   capitalize
-} from '../config/utils'
-
-import {
-  noteStyle
-} from '../config/styles'
+} from '../../config/utils'
 
 const textStyle = css`
   font-size: 1em;

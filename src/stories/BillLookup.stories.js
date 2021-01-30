@@ -1,11 +1,11 @@
 import React from 'react';
 
-import BillLookup from './BillLookup';
+import BillLookup from '../components/input/BillLookup';
 
 // import bills from '../data/bills.json'
 
 export default {
-  title: 'Compositions/BillLookup',
+  title: 'Inputs/BillLookup',
   component: BillLookup,
 };
 

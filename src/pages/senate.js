@@ -4,7 +4,7 @@ import { AnchorLink } from "gatsby-plugin-anchor-links";
 
 
 import Layout from '../components/Layout'
-import SEO from "../components/seo"
+import SEO from "../components/Seo"
 import Text from '../components/Text'
 import Roster from '../components/Roster'
 import ChamberLeadership from '../components/ChamberLeadership'
@@ -47,9 +47,8 @@ const Senate = ({ data }) => {
   const billsThruFloorActionSecondChamber = houseBillsInSenate
   .filter(d => !['Transmitted','In committee', 'Out of committee', 'Tabled in committee', 'On floor'].includes(d.status.label))
 
-
   // later steps
-  const senateBillsInReconciliation = senateBills .filter(d => d.status.step === 'Reconciliation')
+  const senateBillsInReconciliation = senateBills.filter(d => d.status.step === 'Reconciliation')
   const senateBillsThruLegislature = senateBills.filter(d => d.status.step === 'Through Legislature')
   const senateBillsPassed = senateBills.filter(d => d.status.step === 'Passed')
   const senateBillsDead = senateBills.filter(d => d.status.step === 'Failed')

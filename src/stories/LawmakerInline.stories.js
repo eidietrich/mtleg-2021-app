@@ -1,17 +1,17 @@
 import React from 'react';
 
-import LawmakerInline from './LawmakerInline';
+import LawmakerInline from '../components/LawmakerInline';
 
 import lawmakers from '../data/lawmakers.json'
 
 export default {
-  title: 'Components/LawmakerInline',
+  title: 'Lawmaker/InlineName',
   component: LawmakerInline,
 };
 
-const Template = (args) => <p>
+const Template = (args) => <div>
     Text before before before: <LawmakerInline {...args} /> Text after after after.
-</p>
+</div>
 
 export const RepLlewJones = Template.bind({});
 RepLlewJones.args = {

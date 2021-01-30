@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import { AnchorLink } from "gatsby-plugin-anchor-links";
 
 import Layout from '../components/Layout'
-import SEO from "../components/seo"
+import SEO from "../components/Seo"
 import Text from '../components/Text'
 import Roster from '../components/Roster'
 import ChamberLeadership from '../components/ChamberLeadership'
@@ -73,7 +73,6 @@ const House = ({ data }) => {
 
       <ChamberLeadership leadership={leadership} />
 
-
       <Roster title="Membership" chamberLabel="House" lawmakers={representatives} />
 
       <h2 id="house-bills-in-house">House bills before the House (in their first chamber)</h2>
@@ -107,8 +106,6 @@ const House = ({ data }) => {
       <h4>Through floor debate</h4>
       <BillTable bills={billsThruFloorActionSecondChamber} displayLimit={5}/>
 
-      
-      {/* <BillTable bills={senateBillsInHouse} displayLimit={5}/> */}
 
       <h2>House bills passed by both chambers</h2>
 

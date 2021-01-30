@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
-import TextInput from '../components/TextInput'
+import TextInput from './TextInput'
 
 const standardize = string => string.toUpperCase().replaceAll(' ', '').replaceAll('-', '')
 

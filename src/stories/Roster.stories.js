@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Roster from './Roster';
+import Roster from '../components/Roster';
 
 import lawmakers from '../data/lawmakers.json'
 const rosterLawmakers = lawmakers.slice(0,10)
