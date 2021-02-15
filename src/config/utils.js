@@ -10,6 +10,8 @@ export const dateFormat = timeFormat('%-m/%-d/%y')
 export const formatTime = timeFormat('%-I:%M %p, %-m/%-d/%y')
 export const formatTimeLong = timeFormat('%-I:%M %p %b %-d, %Y')
 export const dateFormatLong = timeFormat('%B %-d')
+export const dateFormatWithWeekday = timeFormat('%A, %B %-d')
+export const shortDateWithWeekday = timeFormat('%a, %b %-d')
 
 
 // Routing
@@ -23,6 +25,8 @@ export const capitalize = string => `${string[0].toUpperCase()}${string.slice(1)
 // Adapted from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
 export const titleCase = string => string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
   .replace('Mt','MT') // for addresses
+export const cleanPhoneString = string => string.replace(/\s|\-|\(|\)/g,'')
+
 
 // Adapted from https://stackoverflow.com/questions/14763997/javascript-array-to-sentence
 export const listToText = (list) => {

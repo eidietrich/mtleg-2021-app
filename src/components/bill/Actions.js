@@ -146,7 +146,7 @@ class BillActions extends Component {
           }
         </button>
       </div>
-      <div className="note">See the bill's <a href={lawsUrl}>page in LAWS</a> for an official reference.</div>
+      <div className="note">This table may omit bill actions recorded since this guide's last update. See the <a href={lawsUrl}>bill page in LAWS</a> for an official reference.</div>
 
     </div>
   }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
+import { cleanPhoneString } from '../../config/utils'
+
 import DistrictMatcher from '../../js/DistrictMatcher'
 
 const addressForm = css`
@@ -94,7 +96,6 @@ class DistrictLookup extends Component {
         const lawmakers = this.props.lawmakers
         const representative = lawmakers.find(lawmaker => lawmaker.district.key.replace(' ', '') === hd)
         const senator = lawmakers.find(lawmaker => lawmaker.district.key.replace(' ', '') === sd)
-        console.log('rep', representative)
         this.setState({
             matchedAddress: location,
             errorMessage: null,
@@ -143,7 +144,7 @@ class DistrictLookup extends Component {
 }
 
 const LawmakerEntry = ({ lawmaker, subtitle }) => {
-    const { key, title, name, party, district, locale } = lawmaker
+    const { key, title, name, party, district, locale, phone, email } = lawmaker
     const districtKey = district.key
     return <div css={resultItem}>
         <div>{subtitle}</div>
@@ -152,6 +153,7 @@ const LawmakerEntry = ({ lawmaker, subtitle }) => {
             <Link to={`/lawmakers/${key}`}>{title} {name}</Link>
         </div>
         <div>({party}-{locale.short})</div>
+        <div><a href={`tel:${cleanPhoneString(phone)}`}>{phone}</a> | <a href={`mailto:${email}`}>{email}</a></div>
     </div>
 }
 

@@ -18,6 +18,7 @@ import LawmakerVotingSummary from '../components/lawmaker/VotingSummary'
 
 import {
   listToText,
+  cleanPhoneString,
 } from '../config/utils'
 
 import {
@@ -52,6 +53,10 @@ const localeLineCss = css`
   font-style: italic;
   color: #444;
 `
+const contactLineCss = css`
+  font-size: 0.9em;
+  margin-top: 0.4em;
+`
 
 const getPartyLabel = (key) => {
   return {
@@ -77,6 +82,8 @@ const LawmakerPage = ({pageContext, data}) => {
     votingSummary,
     articles,
     sponsoredBills,
+    phone,
+    email
   } = lawmaker
   const { portrait } = data
   const districtLabel = district.key
@@ -84,7 +91,6 @@ const LawmakerPage = ({pageContext, data}) => {
   const portraitTopper = css`
     border-top: 6px solid ${color};
   `
-  
   return <div>
     <SEO
       title={`${title} ${name}, ${districtLabel}`}
@@ -100,7 +106,11 @@ const LawmakerPage = ({pageContext, data}) => {
           <div css={residenceLineCss}>{getPartyLabel(party)}</div>
           <div css={districtLineCss}>Representing {districtLabel}</div>
           <div css={localeLineCss}>{locale.long}</div>
-          
+          <div css={contactLineCss}>
+            {phone && <a href={`tel:${cleanPhoneString(phone)}`}>{phone}</a>}
+            {(phone && email) && <span> | </span> }
+            {email && <a href={`mailto:${email}`}>{email}</a>}
+          </div>
         </div>
       </div>
       <Text paragraphs={annotation} />

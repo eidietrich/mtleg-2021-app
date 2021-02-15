@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import TextInput from './TextInput'
 
-const standardize = string => string.toUpperCase().replaceAll(' ', '').replaceAll('-', '')
+const standardize = string => string.toUpperCase().replace(/ /, '').replace(/ /, '')
 
 class BillLookup extends Component {
     constructor(props) {
@@ -32,9 +32,10 @@ class BillLookup extends Component {
             })
         } else {
             const filterKey = standardize(input)
-            const billsFound = bills.filter(d => {
-                return standardize(d.identifier).includes(filterKey)
-            }).slice(0, resultLimit)
+            const billsFound = bills
+                .filter(d => standardize(d.identifier).includes(filterKey))
+                .sort((a,b) => a.identifier.length - b.identifier.length)
+                .slice(0, resultLimit)
             this.setState({
                 billsFound
             })

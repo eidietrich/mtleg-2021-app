@@ -17,10 +17,26 @@ import { dateFormatLong } from '../config/utils'
 
 import { summary, mostRecentActionDate, infoPopups } from '../data/summary.json'
 
+const keyBillCategories = [
+  "Governor’s budget",
+  "COVID-19 response",
+  "Broadband internet access",
+  "Health care policy",
+  "Election administration",
+  "Labor policy",
+  "Justice",
+  "Energy & natural resource policy",
+  "Firearm regulations",
+  "Anti-abortion measures",
+  "Transgender restrictions",
+]
+
 const Index = ({ data }) => {
   const keyBills = data.keyBills.edges.map(d => d.node)
-  const allBills = data.allBills.edges.map(d => d.node)
-  const allLawmakers = data.allLawmakers.edges.map(d => d.node)
+  const billIndex = data.billIndex.edges.map(d => d.node)
+  const lawmakerIndex = data.lawmakerIndex.edges.map(d => d.node)
+
+  // const keyBillCategories = Array.from(new Set(keyBills.map(d => d.majorBillCategory)))
   return <div>
     <SEO title="Overview" />
     <Layout>
@@ -32,18 +48,28 @@ const Index = ({ data }) => {
 
       <h2 id="key-bill-status">Key bills</h2>
       <div className="note">Major legislation identified by MTFP reporters. Where ambiguous, official bill titles are annotated with plain language summaries.</div>
-      <BillTable bills={keyBills} displayLimit={15}/>
+      {
+        keyBillCategories.map(cat => {
+          const billsInCat = keyBills.filter(d => d.majorBillCategory === cat)
+          return <div key={cat}>
+            <h4>{cat}</h4>
+            <BillTable bills={billsInCat} displayLimit={15} suppressCount={true}/>
+          </div>
+        })
+      }
+      
+      
       
       <Newsletter />
 
       <h3 id="find-bill">Find a bill</h3>
-      <BillLookup bills={allBills} />
+      <BillLookup bills={billIndex} />
 
       <h3 id="find-lawmaker">Find a lawmaker</h3>
-      <LawmakerLookup lawmakers={allLawmakers} />
+      <LawmakerLookup lawmakers={lawmakerIndex} />
 
       <h3 id="find-district">Find your district</h3>
-      <DistrictLookup lawmakers={allLawmakers} />
+      <DistrictLookup lawmakers={lawmakerIndex} />
 
       <ContactUs />
     </Layout>
@@ -64,18 +90,30 @@ export const query = graphql`
             status
           }
           label
+          majorBillCategory
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
+          }
         }
       }
     }
-    allLawmakers: allLawmakersJson {
+    lawmakerIndex: allLawmakersJson {
       edges {
-      node {
-      key
+        node {
+          key
           title
           name
+          phone
+          email
           district {
-      key
-    }
+            key
+          }
           party
           locale {
             short
@@ -83,9 +121,9 @@ export const query = graphql`
         }
       }
     }
-    allBills: allBillsJson {
+    billIndex: allBillsJson {
       edges {
-      node {
+        node {
           key
           title
           identifier
@@ -93,6 +131,7 @@ export const query = graphql`
       }
     }
   }
+  
   
 `
 

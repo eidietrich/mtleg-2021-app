@@ -20,7 +20,7 @@ const signedByGovernor = d => d.progress.governorStatus === 'signed'
 const vetoedByGovernor = d => d.progress.governorStatus === 'vetoed'
 const enactedWithNoGovernorSignature = d => d.progress.governorStatus === 'became law unsigned'
 
-const Governor = ({data}) => {
+const Governor = ({ data }) => {
   const numBillsBeforeGov = summary.houseBills.toGovernor + summary.senateBills.toGovernor
   const plural = (numBillsBeforeGov !== 1) ? 's' : ''
 
@@ -30,6 +30,7 @@ const Governor = ({data}) => {
   const signedBills = governorBills.filter(signedByGovernor)
   const vetoedBills = governorBills.filter(vetoedByGovernor)
   const letBecomeLawBills = governorBills.filter(enactedWithNoGovernorSignature)
+
 
   return <div>
     <SEO
@@ -44,7 +45,11 @@ const Governor = ({data}) => {
       <p>As of {dateFormat(new Date(mostRecentActionDate))}, <strong>{numberFormat(numBillsBeforeGov)} bill{plural}</strong> from the 2021 Legislature had been sent to Gov. Gianforte for his signature.</p>
       <h4>Currently before the governor</h4>
       <BillTable bills={awaitingActionBills} />
-      
+
+      <h4>Vetoed</h4>
+      <div className="note">The Montana Constitution requires that the governor provide explanation for vetos. Vetos can be overridden by two-thirds majorities in the House and Senate.</div>
+      <BillTable bills={vetoedBills} />
+
       <h4>Signed into law</h4>
       <BillTable bills={signedBills} />
 
@@ -52,9 +57,7 @@ const Governor = ({data}) => {
       <div className="note">Bills that have become law without the governor's signature after the governor chooses not to issue a signature or a veto by the deadlines specified in the Montana Constitution: 5 days if the Legislature is in session, and 25 days if it isn't.</div>
       <BillTable bills={letBecomeLawBills} />
 
-      <h4>Vetoed</h4>
-      <div className="note">The Montana Constitution requires that the governor provide explanation for vetos. Vetos can be overridden by two-thirds majorities in the House and Senate.</div>
-      <BillTable bills={vetoedBills} />
+      
 
       <Newsletter />
 
@@ -70,7 +73,7 @@ const Governor = ({data}) => {
 
 export const query = graphql`
   query GovernorPageQuery {
-    governorBills: allBillsJson(filter: {status: {step: {eq: "Governor"}}}) {
+    governorBills: allBillsJson(filter: {progress: {toGovernor: {eq: true}}}) {
       edges {
         node {
           key
@@ -85,6 +88,15 @@ export const query = graphql`
           progress {
             toGovernor
             governorStatus
+          }
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
           }
         }
       }

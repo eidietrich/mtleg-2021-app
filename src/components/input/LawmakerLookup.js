@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
+import { cleanPhoneString } from '../../config/utils'
+
 import TextInput from './TextInput'
 
 const standardize = string => string.toUpperCase().replace(' ','').replace('-','')
@@ -90,13 +92,15 @@ const resultName = css`
 const labelCss = css`margin-bottom: 0.2em;`
 
 const LawmakerEntry = ({ lawmaker }) => {
-    const { key, title, name, party, district, locale } = lawmaker
+    const { key, title, name, party, district, locale, phone, email } = lawmaker
     return <div css={resultItem}>
         <div css={resultLabel}>{district.key}</div>
         <div css={resultName}>
             <Link to={`/lawmakers/${key}`}>{title} {name}</Link>
         </div>
         <div>({party}-{locale.short})</div>
+        <div><a href={`tel:${cleanPhoneString(phone)}`}>{phone}</a></div>
+        <div><a href={`mailto:${email}`}>{email}</a></div>
     </div>
 }
 

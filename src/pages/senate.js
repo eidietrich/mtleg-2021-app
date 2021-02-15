@@ -179,14 +179,24 @@ export const query = graphql`
       edges {
         node {
           key
-          title
           identifier
+          title
           type
           status {
             key
             step
             label
             status
+          }
+          label
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
           }
         }
       }
@@ -195,14 +205,24 @@ export const query = graphql`
       edges {
         node {
           key
-          title
           identifier
+          title
           type
           status {
             key
             step
             label
             status
+          }
+          label
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
           }
         }
       }

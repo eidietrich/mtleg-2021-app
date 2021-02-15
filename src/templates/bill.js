@@ -40,7 +40,7 @@ const BillPage = (props) => {
       
       {
         (articles.length > 0) && <div>
-          <h3>News coverage</h3>
+          <h3 id="mtfp-articles">News coverage</h3>
           <div>MTFP stories about the bill</div>
           <LinksList articles={articles}/>
         </div>
@@ -63,6 +63,7 @@ BillPage.propTypes = {
       actions: PropTypes.array.isRequired,
       annotation: PropTypes.array.isRequired,
       articles: PropTypes.array.isRequired,
+      numArticles: PropTypes.number.isRequired,
       chamber: PropTypes.oneOf(['house','senate']),
       identifier: PropTypes.string.isRequired,
       isMajorBill: PropTypes.oneOf(['yes', 'no']).isRequired, // Why is this not a bool?
@@ -75,7 +76,7 @@ BillPage.propTypes = {
       requestor: PropTypes.string,
       secondHouseReturnIfAmendedDeadline: PropTypes.string.isRequired,
       session: PropTypes.oneOf(['2021']),
-      sponsor: PropTypes.string.isRequired,
+      sponsor: PropTypes.object.isRequired,
 
       status: PropTypes.exact({
         key: PropTypes.string.isRequired,

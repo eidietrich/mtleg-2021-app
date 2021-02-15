@@ -59,7 +59,7 @@ const BillInfo = ({ bill, sponsor }) => {
                 <div css={infoColContentCss}>
                     {
                         textUrl ?
-                            <span><a href={textUrl}>Available here</a></span>
+                            <span><a href={textUrl} target="_blank" rel="noopener noreferrer">Available here</a></span>
                             : <span>Not available</span>
                     }
                 </div>
@@ -85,7 +85,7 @@ const BillInfo = ({ bill, sponsor }) => {
                 <div css={infoColContentCss}>
                     {
                         legalNoteUrl ?
-                            <span><a href={legalNoteUrl}>Available here</a></span>
+                            <span><a href={legalNoteUrl} target="_blank" rel="noopener noreferrer">Available here</a></span>
                             : <span>None on file</span>
                     }
                 </div>
@@ -94,7 +94,7 @@ const BillInfo = ({ bill, sponsor }) => {
             <div css={infoColCss}>
                 <div css={infoColLabelCss}>Official bill page</div>
                 <div css={infoColContentCss}>
-                    <a href={lawsUrl}>In LAWS database</a>
+                    <a href={lawsUrl} target="_blank" rel="noopener noreferrer">In LAWS database</a>
                 </div>
             </div>
 
@@ -102,7 +102,7 @@ const BillInfo = ({ bill, sponsor }) => {
 
         <div className="note">
             {(voteMajorityRequired !== 'Simple') ? <span> Passage requires supermajority, {voteMajorityRequired}. </span> : null}
-            <span>Deadline for passing first chamber (the House for house bills and the Senate for senate bills):  {dateFormat(new Date(transmittalDeadline))}. </span>
+            <span>Deadline for passing first chamber (the House for House bills and the Senate for Senate bills):  {dateFormat(new Date(transmittalDeadline))}. </span>
             <span>Deadline for first chamber return if amended in second: {dateFormat(new Date(secondHouseReturnIfAmendedDeadline))}.</span>
         </div>
     </div>

@@ -8,20 +8,21 @@ import PropTypes from "prop-types"
 import { Link } from 'gatsby'
 import { css } from '@emotion/react'
 
+// import { AnchorLink } from "gatsby-plugin-anchor-links";
+
 import {
-  statusColors
+  statusColors,
+  partyColors
 } from '../config/config'
 
 import {
-  billUrl
+  billUrl,
+  lawmakerUrl
 } from '../config/utils'
 import {
   tableStyle,
   noteStyle
 } from '../config/styles';
-
-
-const tableLinkStyle = css``
 
 const inlineButtonCss = css`
   display: inline-block;
@@ -44,7 +45,7 @@ const inlineButtonCss = css`
 `
 
 const DEFAULT_DISPLAY_LIMIT = 10
-const DEFAULT_SORT = (a,b) => +a.identifier.substring(3,) - +b.identifier.substring(3,)
+const DEFAULT_SORT = (a, b) => +a.identifier.substring(3,) - +b.identifier.substring(3,)
 const defaultState = {
   isTruncated: true
 }
@@ -58,11 +59,12 @@ class BillTable extends Component {
   }
 
   toggleDisplayLimit() {
-    this.setState({isTruncated: !this.state.isTruncated})
+    this.setState({ isTruncated: !this.state.isTruncated })
   }
 
   render() {
-    const { bills } = this.props
+    const { bills, suppressCount } = this.props
+    const sortFunction = this.props.sortFunction || DEFAULT_SORT
     const { isTruncated } = this.state
     const displayLimit = this.props.displayLimit || DEFAULT_DISPLAY_LIMIT
 
@@ -71,16 +73,9 @@ class BillTable extends Component {
     if (bills.length === 0) {
       return <div css={noteStyle}>None at present</div>
     }
-    const sorted = bills.sort(DEFAULT_SORT)
-
-    let renderBills
-    if (isTruncated) {
-      renderBills = sorted.slice(0, displayLimit)
-    } else {
-      renderBills = sorted
-    }
-
-    const rows = renderBills.map((bill, i) => <Bill key={String(i)} {...bill} />)
+    const sorted = bills.sort(sortFunction)
+    const rendered = isTruncated ? sorted.slice(0, displayLimit) : sorted
+    const rows = rendered.map((bill, i) => <Bill key={String(i)} {...bill} />)
 
     return <div>
       <table css={tableStyle}>
@@ -93,16 +88,16 @@ class BillTable extends Component {
         <tbody>{rows}</tbody>
       </table>
       <div css={noteStyle}>
-        <span>Showing {renderBills.length} of {bills.length}</span>
+        { !suppressCount && <span>Showing {rendered.length} of {bills.length}</span>}
         {
           (bills.length > displayLimit) &&
-            <span><span>. </span>
+          <span><span>. </span>
             <button css={inlineButtonCss} onClick={this.toggleDisplayLimit}>
-              {  isTruncated ? 'See all.' : 'See fewer.' }
+              {isTruncated ? 'See all.' : 'See fewer.'}
             </button>
-            </span>
+          </span>
         }
-        
+
       </div>
 
     </div>
@@ -112,37 +107,102 @@ class BillTable extends Component {
 }
 const tableRowCss = css`
   /* background-color: #eae3da; */
-  /* border-bottom: 1px solid #fff !important; */
+  border-bottom: 2px solid #fff !important;
+  td {
+    /* padding: 0; */
+  }
+`
+
+const tableBillCell = css`
+  padding: 0;
 `
 
 const statusColCss = css`
   width: 10em;
+
+  @media screen and (max-width: 468px) {
+    width: 7em;
+  }
 `
 const billLabelCss = css`
   font-style: italic;
-  padding-left: 0.5em;
   color: #666;
 `
-const billCss = css``
+const billCss = css`
+  display: block;
+  font-size: 1.15em;
+  font-weight: 600;
+  font-style: italic;
+  padding: 0.2em 0.2em;
+  margin-left: -0.2em;
+  /* background-color: #e0d4b8; */
+  
+  a {
+    color: #473d29;
+  }
+
+  :hover {
+    background-color: #cebc9f;
+    color: #ce5a00 !important;
+    text-decoration: none;
+  }
+`
+const identifierCss = css`
+  font-style: normal;
+  color: #444;
+
+`
 const stepCss = css`
 `
 const labelCss = css`
   font-style: italic;
-  padding-left: 0.5em;
 `
+const billInfoLineCss = css`
+  color: #ae9864;
+`
+const billLinkCss = css`
+  /* opacity: 0.7; */
+  margin-top: 0.3em;
+  margin-right: 0.5em;
+  display: inline-block;
+  color: #ae9864;
+  border: 1px solid #ae9864;
+  padding: 0.2em 0.5em;
 
-const Bill = ({ title, identifier, status, label }) => {
+  :hover {
+    color:  #ce5a00;
+    border: 1px solid  #ce5a00;
+    text-decoration: none;
+  }
+`
+const pluralStory = val => (val !== 1) ? 'stories' : 'story'
+
+
+const Bill = ({ title, identifier, status, label, textUrl, fiscalNoteUrl, legalNoteUrl, numArticles, sponsor }) => {
   const color = statusColors(status.status)
   return (<tr css={tableRowCss} key={identifier}>
-    <td css={tableLinkStyle}>
-      <div css={billCss}><Link to={`/bills/${billUrl(identifier)}`}>{identifier}</Link>: {title}</div>
+    <td css={tableBillCell}>
+
+        <Link css={billCss} to={`/bills/${billUrl(identifier)}`}>
+          <span css={identifierCss}>{identifier}:</span> {title}
+        </Link>
       <div css={billLabelCss}>{label}</div>
+      <div css={billInfoLineCss}>
+        {sponsor && <Link css={billLinkCss} to={`/lawmakers/${lawmakerUrl(sponsor.name)}`}>
+          From {sponsor.name} <span css={css`color: ${partyColors(sponsor.party)}; opacity: 0.8;`}>({sponsor.party})</span>
+        </Link>}
+        {textUrl && <a css={billLinkCss} href={textUrl} target="_blank" rel="noopener noreferrer">Bill text</a>}
+        {fiscalNoteUrl && <a css={billLinkCss} href={fiscalNoteUrl} target="_blank" rel="noopener noreferrer">Fiscal note</a>}
+        {legalNoteUrl && <a css={billLinkCss} href={legalNoteUrl} target="_blank" rel="noopener noreferrer">Legal note</a>}
+        {(numArticles > 0) && <Link css={billLinkCss} to={`/bills/${billUrl(identifier)}`}><strong>{numArticles}</strong> MTFP {pluralStory(numArticles)}</Link>}
+      </div>
+
     </td>
     <td css={[statusColCss, css`background-color: ${color}`]}>
       <div css={stepCss}>{status.step}</div>
       <div css={labelCss}>{status.label}</div>
     </td>
-    
+
   </tr>)
 }
 

@@ -179,13 +179,22 @@ export const query = graphql`
           key
           identifier
           title
-          label
           type
           status {
             key
             step
             label
             status
+          }
+          label
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
           }
         }
       }
@@ -196,13 +205,22 @@ export const query = graphql`
           key
           identifier
           title
-          label
           type
           status {
             key
             step
             label
             status
+          }
+          label
+          textUrl
+          fiscalNoteUrl
+          legalNoteUrl
+          numArticles
+          sponsor {
+            name
+            district
+            party
           }
         }
       }

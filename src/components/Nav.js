@@ -79,12 +79,13 @@ const Nav = (props) => <div css={navStyle}>
 
 <div css={[navRowStyle, navRowSecondary]}>
         <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Overview</Link>
-        {/* <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Key bills</Link> */}
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#key-bill-status'>Key bills</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-bill'>Find a bill</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-lawmaker'>Find a lawmaker</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-district'>Find your district</AnchorLink>
-        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/about'>About this project</AnchorLink>
+        {/* <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/about'>About this project</AnchorLink> */}
+        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/calendar#upcoming-bill-hearings'>Bill hearings</AnchorLink>
+        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/participation#participation'>How to participate</AnchorLink>
     </div>
 
     <div css={[navRowStyle, navRowPrimary]}>
