@@ -78,7 +78,7 @@ const navSecondaryStyle = css`
 const Nav = (props) => <div css={navStyle}>
 
 <div css={[navRowStyle, navRowSecondary]}>
-        <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Overview</Link>
+        <Link css={[navItemStyle, navSecondaryStyle]} to='/'>Home</Link>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#key-bill-status'>Key bills</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-bill'>Find a bill</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-lawmaker'>Find a lawmaker</AnchorLink>

@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { css } from '@emotion/react'
+import { Link } from 'gatsby'
 
 import Nav from './Nav'
 import Footer from './Footer'
@@ -15,7 +16,7 @@ const bodyStyles = css`
     position: relative;
 `
 const headerStyle = css`  
-  background-color: #171818;
+  background-color: var(--tan7);
   margin-bottom: 10px;
   padding: 1em;
 `
@@ -26,19 +27,27 @@ const contentStyle = css`
     margin: auto;
 `
 const titleStyle = css`
-  color: #AE9864;
+  color: var(--tan4);
   font-size: 3em;
   margin-bottom: 5px;
   margin-top: 0;
   text-transform: uppercase;
   text-align: center;
 
+  a {
+    color: var(--tan4);
+  }
+  a:hover {
+    color: var(--link);
+    text-decoration: none;
+  }
+
   @media screen and (max-width: 468px) {
     font-size: 2em;
   }
 `
 const subtitleStyle = css`
-  color: #806f47;
+  color: var(--tan5);
   font-size: 1.15em;
   text-align: center;
   margin-left: 5px;
@@ -47,11 +56,11 @@ const subtitleStyle = css`
 `
 const mtfpBlurbCss = css`
   text-align: center;
-  color: #ddd;
+  color: var(--gray1);
   font-style: italic;
 `
 const updateCss = css`
-  color: #444;
+  color: var(--gray5);
   font-size: 0.9em;
   margin-bottom: 0.5em;
   text-align: right;
@@ -76,7 +85,7 @@ const Layout = ({ children }) => {
     <div css={bodyStyles}>
       <div css={contentStyle}>
         <div css={headerStyle}>
-          <h1 css={titleStyle}>{title}</h1>
+          <h1 css={titleStyle}><Link to="/">{title}</Link></h1>
           <h2 css={subtitleStyle}>{subtitle}</h2>
           <div css={mtfpBlurbCss}>
               A digital guide by <MTFPLogo />| <a href={headerDonateLink}>Support this work</a>
