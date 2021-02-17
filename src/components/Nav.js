@@ -84,7 +84,7 @@ const Nav = (props) => <div css={navStyle}>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-lawmaker'>Find a lawmaker</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/#find-district'>Find your district</AnchorLink>
         {/* <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/about'>About this project</AnchorLink> */}
-        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/calendar#upcoming-bill-hearings'>Bill hearings</AnchorLink>
+        <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/calendar'>What's upcoming</AnchorLink>
         <AnchorLink css={[navItemStyle, navSecondaryStyle]} to='/participation#participation'>How to participate</AnchorLink>
     </div>
 
