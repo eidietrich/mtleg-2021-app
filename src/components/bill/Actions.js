@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { css } from '@emotion/react'
 
 import InfoPopup from '../InfoPopup'
@@ -56,10 +56,39 @@ const defaultState = {
 
 const dateCss = css`
   color: #806f47;
+  vertical-align: top;
+`
+const dateColWidth = css`
+  width: 5em;
+  @media screen and (max-width: 468px) {
+    width: 4em;
+  }
+`
+const actionCss = css`
+  vertical-align: top;
+`
+const actionWidth = css`
+  width: 35em;
+  @media screen and (max-width: 760px) {
+    width: 25em;
+  }
+  @media screen and (max-width: 600px) {
+    width: 20em;
+  }
+  @media screen and (max-width: 468px) {
+    width: 16em;
+  }
 `
 
 const committeeCss = css`
   font-style: italic;
+  vertical-align: top;
+`
+const committeeColWidth = css`
+  width: 10em;
+  @media screen and (max-width: 468px) {
+    width: 5em;
+  }
 `
 const highlightRow = css`
   background-color: #cebc9f;
@@ -68,9 +97,11 @@ const highlightRow = css`
 const inlineButtonCss = css`
   display: inline-block;
   border: none;
-  padding: 0;
-  color: #ce5a00;
-  background-color: #fff;
+  padding: 0.2em 0.5em;
+  border: 1px solid var(--tan6);
+  /* color: #ce5a00; */
+  color: var(--tan6);
+  background-color: rgba(256, 256, 256, 0);
   text-align: left;
   font-size: 1em;
   text-transform: none;
@@ -78,10 +109,10 @@ const inlineButtonCss = css`
   font-weight: normal;
 
   :hover {
-    background-color: #fff;
-    border: none;
+    background-color: rgba(256, 256, 256, 0);
+    border: 1px solid #ce5a00;
     color: #ce5a00;
-    text-decoration: underline;
+    text-decoration: none;
   }
 `
 
@@ -157,9 +188,11 @@ const Action = (action, key, showVotes) => {
   } = action
   const { thresholdRequired } = (vote || {})
   return <tr key={key} css={isHighlight ? highlightRow : null}>
-    <td css={dateCss}>{dateFormat(parseDate(date))}</td>
+    <td css={dateCss}><div css={dateColWidth}>
+      {dateFormat(parseDate(date))}
+    </div></td>
 
-    <td>
+    <td css={actionCss}><div css={actionWidth}>
       <div css={descriptionCss}>
         {description}
       </div>
@@ -177,11 +210,11 @@ const Action = (action, key, showVotes) => {
         // hearing info
         watchListenUrls.length > 0 ?
           <div css={recordingLineCss}>
-            {watchListenUrls.map((url, i) => <span><a href={url}>Recording {i + 1}</a> </span>)}
+            {watchListenUrls.map((url, i) => <span><a href={url}>Recording {i + 1}.</a> </span>)}
           </div> : null
       }
-    </td>
-    <td css={committeeCss}>{committee}</td>
+    </div></td>
+    <td css={committeeCss}><div css={committeeColWidth}>{committee}</div></td>
   </tr >
 }
 
@@ -244,31 +277,135 @@ const VoteBlock = ({ vote, voteUrl }) => {
     gopSupported,
     demCount,
     demSupported,
+    votes
   } = (vote || {})
   const rColor = partyColors('R')
   const dColor = partyColors('D')
-  const passageColor = motionPassed ? positionColors['Y'] : positionColors['N']
-  const gopSupportColor = gopSupported ? positionColors['Y'] : positionColors['N']
-  const demSupportColor = demSupported ? positionColors['Y'] : positionColors['N']
+  const passageColor = motionPassed ? positionColors('Y') : positionColors('N')
+  const gopSupportColor = gopSupported ? positionColors('Y') : positionColors('N')
+  const demSupportColor = demSupported ? positionColors('Y') : positionColors('N')
   // const lightRed = partyColors('R', 'lighter')
   // const lightBlue = partyColors('D', 'lighter')
-  return <div css={voteUrlCss}>
-    <div css={[colCss, col1]}>
-      <div css={[rowCss]}>
-        <a href={voteUrl}>Vote:</a>
-        <span> </span>
-        <span css={[totalVoteCss(passageColor)]}>{count && count.yes}-{count && count.no}</span>
+  return <div>
+    <div css={voteUrlCss}>
+      <div css={[colCss, col1]}>
+        <div css={[rowCss]}>
+          <span css={[totalVoteCss(passageColor)]}>{count && count.yes}-{count && count.no}</span>
+        </div>
+      </div>
+      <div css={[colCss, col2]}>
+        <div css={[rowCss]}>
+          <span css={partyIconCss(rColor)}>R</span>
+          <span css={partyVoteCss(rColor, gopSupportColor)}>{gopCount && gopCount.yes}-{gopCount && gopCount.no}</span>
+        </div>
+        <div css={rowCss}>
+          <span css={partyIconCss(dColor)}>D</span>
+          <span css={partyVoteCss(dColor, demSupportColor)}>{demCount && demCount.yes}-{demCount && demCount.no}</span>
+        </div>
       </div>
     </div>
-    <div css={[colCss, col2]}>
-      <div css={[rowCss]}>
-        <span css={partyIconCss(rColor)}>R</span>
-        <span css={partyVoteCss(rColor, gopSupportColor)}>{gopCount && gopCount.yes}-{gopCount && gopCount.no}</span>
-      </div>
-      <div css={rowCss}>
-        <span css={partyIconCss(dColor)}>D</span>
-        <span css={partyVoteCss(dColor, demSupportColor)}>{demCount && demCount.yes}-{demCount && demCount.no}</span>
-      </div>
+    <VoteListing votes={votes} voteUrl={voteUrl}/>
+  </div>
+}
+
+const voteListing = css`
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--tan5);
+  padding: 0.5em;
+  background-color: var(--tan2);
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+`
+const col = css`
+  flex: 0 0 50%;
+`
+const partyLabel = css`
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--gray6);
+  margin-bottom: 0.3em;
+  margin-top: 0.2em;
+`
+const partyVotes = css`
+  margin-bottom: 1em;
+`
+
+const VoteListing = ({ votes, voteUrl, defaultOpen=false }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+
+  const gopVotes = votes.filter(d => d.party === 'R')
+  const demVotes = votes.filter(d => d.party === 'D')
+  return <div>
+    <button css={[inlineButtonCss]} onClick={() => setIsOpen(!isOpen)}>
+      {isOpen ? <span>&#x25BE; Hide full vote breakdown</span> : <span>&#x25B8; Show full vote breakdown</span> }
+    </button>
+    {/* <span>  <a href={voteUrl}>Official vote page.</a></span> */}
+    {
+      isOpen ?
+        <div css={voteListing}>
+          <div css={col}>
+            <div css={partyLabel}>Republicans</div>
+            <div css={partyVotes}>
+              {
+                gopVotes.map(VoteItem)
+              }
+            </div>
+          </div>
+          <div css={col}>
+            <div css={partyLabel}>Democrats</div>
+            <div css={partyVotes}>
+              {
+                demVotes.map(VoteItem)
+              }
+            </div>
+          </div>
+        </div> : null
+    }
+    {
+      isOpen ? 
+        <button css={inlineButtonCss} onClick={() => setIsOpen(false)}>
+          Hide full vote breakdown
+        </button> : null
+    }
+
+  </div>
+}
+
+const voteItemCss = css`
+  display: flex;
+
+  :nth-of-type(5n) {
+    margin-bottom: 0.5em;
+  }
+`
+const voteIndicator = css`
+  width: 2em;
+  margin-right: 0.5em;
+  text-align: center;
+  padding: 0.1em;
+  border-top: 1px solid var(--tan6);
+  text-transform: capitalize;
+`
+const nameLine = css`
+  width: 13em;
+  padding: 0.1em;
+`
+
+const VoteItem = (vote) => {
+  const { option, name, city, party } = vote
+  const choice = option.replace('absent', 'abs').replace('excused', 'exc')
+  const locale = city.replace(' ', '\u00a0') // prevents line break on space
+  const voteColor = css`
+    background-color: ${positionColors(choice.toUpperCase()[0])};
+  `
+  const nameColor = css`
+    color: ${partyColors(party, 'darker')};
+  `
+  return <div key={name} css={voteItemCss}>
+    <div css={[voteIndicator, voteColor]}>{choice}</div>
+    <div css={nameLine}>
+      <strong css={nameColor}>{name}</strong> (<em>{locale}</em>)
     </div>
   </div>
 }

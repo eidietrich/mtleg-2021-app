@@ -88,21 +88,21 @@ const Layout = ({ children }) => {
           <h1 css={titleStyle}><Link to="/">{title}</Link></h1>
           <h2 css={subtitleStyle}>{subtitle}</h2>
           <div css={mtfpBlurbCss}>
-              A digital guide by <MTFPLogo />| <a href={headerDonateLink}>Support this work</a>
+            A digital guide by <MTFPLogo />| <a href={headerDonateLink}>Support this work</a>
           </div>
         </div>
 
         <div css={navCss}>
-        <Nav />
+          <Nav />
         </div>
-        
+
         <div css={updateCss}>
           Last updated {formatTimeLong(new Date(updateTime))}
         </div>
         <main>{children}</main>
       </div>
       <Footer />
-      
+
     </div>
   )
 }

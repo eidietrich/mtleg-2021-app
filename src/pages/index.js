@@ -19,12 +19,14 @@ import { summary, mostRecentActionDate, infoPopups } from '../data/summary.json'
 
 const keyBillCategories = [
   "Governor’s budget",
+  "Democratic alternatives",
   "COVID-19 response",
   "Broadband internet access",
-  "Health care policy",
   "Election administration",
+  "Health care policy",
   "Labor policy",
-  "Justice",
+  "Justice policy",
+  "Education policy",
   "Energy & natural resource policy",
   "Firearm regulations",
   "Anti-abortion measures",

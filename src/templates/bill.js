@@ -12,6 +12,7 @@ import Newsletter from '../components/Newsletter'
 import BillStatus from '../components/bill/Status'
 import BillInfo from '../components/bill/Info'
 import BillActions from '../components/bill/Actions'
+import BillVotes from '../components/bill/Votes'
 
 const BillPage = (props) => {
   const {
@@ -49,6 +50,8 @@ const BillPage = (props) => {
       <Newsletter />
 
       <BillActions actions={actions} lawsUrl={lawsUrl}/>
+
+      {/* <BillVotes actions={actions}/> */}
       
       <ContactUs />
     </Layout>

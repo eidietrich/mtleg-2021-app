@@ -33,10 +33,13 @@ export const partyColors = (partyLetter, variant = null) => {
     }[partyLetter] || '#666'
 }
 
-export const positionColors = {
-    Y: '#91cf60',
-    N: '#fc8d59'
+export const positionColors = (positionLetter) => {
+    return {
+        Y: '#91cf60',
+        N: '#fc8d59'
+    }[positionLetter] || '#bbb'
 }
+
 
 // Menus
 // TODO: Automate pulling these from WordPress
