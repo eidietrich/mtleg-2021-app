@@ -60,7 +60,7 @@ const UpcomingFloorActions = () => {
                     <div>
                         <h4>House Floor</h4>
                         <h5>Second readings scheduled</h5>
-                        <div className="note">Debate and initial floor vote</div>
+                        <div className="note">Debate and initial floor votes</div>
                         <BillTable bills={houseSecondReadings.map(d => d.bill)} />
 
                         <h5>Third readings scheduled</h5>
@@ -69,7 +69,7 @@ const UpcomingFloorActions = () => {
 
                         <h4>Senate Floor</h4>
                         <h5>Second readings scheduled</h5>
-                        <div className="note">Debate and initial floor vote</div>
+                        <div className="note">Debate and initial floor votes</div>
                         <BillTable bills={senateSecondReadings.map(d => d.bill)} />
 
                         <h5>Third readings scheduled</h5>

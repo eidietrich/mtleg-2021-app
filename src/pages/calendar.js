@@ -16,7 +16,7 @@ const Calendar = () => {
             description="Upcoming bill hearings"
         />
         <Layout>
-            <h1>Calendar</h1>
+            <h1>Upcoming Legislative events</h1>
             <AnchorLink to="/calendar#upcoming-bill-hearings">Scheduled bill hearings</AnchorLink>
             <span> - </span>
             <AnchorLink to="/calendar#upcoming-floor-actions">Scheduled floor actions</AnchorLink>
