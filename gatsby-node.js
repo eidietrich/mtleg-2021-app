@@ -11,7 +11,7 @@
 // const { bills, lawmakers, updateDate } = require('./src/data/main.json')
 const bills = require('./src/data/bills.json')
 const lawmakers = require('./src/data/lawmakers.json')
-const committees = {} // TODO
+const committees = require('./src/data/committees.json')
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
@@ -39,8 +39,20 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             context: {
                 bill,
                 // Abbreviated info on sponsor for sake of data bundle size
+                // TODO: It would probably be more elegant to do this data merge in data processing step
                 sponsor: { key, title, name, district, party, locale }
             },
+        })
+    })
+
+    committees.forEach(committee => {
+        const key = committee.key
+        createPage({
+            path: `/committees/${key}`,
+            component: require.resolve('./src/templates/committee.js'),
+            context: {
+                committee,
+            }
         })
     })
 }

@@ -8,11 +8,12 @@ import SEO from "../components/Seo"
 import Text from '../components/Text'
 import Roster from '../components/Roster'
 import ChamberLeadership from '../components/ChamberLeadership'
+import ChamberCommittees from '../components/ChamberCommittees'
 import BillTable from '../components/BillTable'
 import ContactUs from '../components/ContactUs'
 import Newsletter from '../components/Newsletter'
 
-import { text } from '../data/senate.json'
+import { text, committees } from '../data/senate.json'
 
 // TODO - break this out to app text
 const leadership = [
@@ -70,6 +71,8 @@ const Senate = ({ data }) => {
       <Text paragraphs={text.description} />
 
       <ChamberLeadership leadership={leadership} />
+
+      <ChamberCommittees committees={committees} />
 
       <Newsletter />
 
