@@ -74,7 +74,7 @@ const House = ({ data }) => {
 
       <ChamberLeadership leadership={leadership} />
 
-      <ChamberCommittees committees={committees} />
+      {/* <ChamberCommittees committees={committees} /> */}
 
       <Roster title="Membership" chamberLabel="House" lawmakers={representatives} />
 

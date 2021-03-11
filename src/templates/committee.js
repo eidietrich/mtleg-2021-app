@@ -24,6 +24,8 @@ const CommitteePage = (props) => {
     const upcomingHearingDates = Array.from(new Set(bills.filter(d => d.hearingSet).map(d => d.hearingSet.date)))
         .sort((a,b) => new Date(a) - new Date(b))
 
+    // console.log(name, members)
+
     return <div>
         <SEO
             title={`${name} Committee`}

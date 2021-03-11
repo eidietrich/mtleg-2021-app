@@ -72,7 +72,7 @@ const Senate = ({ data }) => {
 
       <ChamberLeadership leadership={leadership} />
 
-      <ChamberCommittees committees={committees} />
+      {/* <ChamberCommittees committees={committees} /> */}
 
       <Newsletter />
 
