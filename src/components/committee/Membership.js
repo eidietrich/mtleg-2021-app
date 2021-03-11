@@ -48,8 +48,8 @@ const memberContainerCss = css`
 `
 const CommitteeMembership = ({members}) => {
   const chair = members.find(d => d.role === 'Chair')
-  const gopViceChair = members.find(d => d.role === 'Majority Vice Chair')
-  const demViceChair = members.find(d => d.role === 'Minority Vice Chair')
+  const gopViceChair = members.find(d => d.role === 'Majority Vice Chair' || (d.role === 'Vice Chair' && d.party === 'R'))
+  const demViceChair = members.find(d => d.role === 'Minority Vice Chair' || (d.role === 'Vice Chair' && d.party === 'D'))
   const otherMembers = members.filter(d => d.role === 'Member')
       .sort((a, b) => a.party === 'R' ? -1 : 1)
   return <div>
@@ -58,14 +58,14 @@ const CommitteeMembership = ({members}) => {
         <div css={roleCss}>Commmittee chair</div>
         <Lawmaker member={chair} />
       </div>
-      <div>
+      {gopViceChair && <div>
         <div css={roleCss}>Majority vice-chair</div>
         <Lawmaker member={gopViceChair} />
-      </div>
-      <div>
+      </div>}
+      {demViceChair && <div>
         <div css={roleCss}>Minority vice-chair</div>
         <Lawmaker member={demViceChair} />
-      </div>
+      </div>}
     </div>
     
     <div css={memberContainerCss}>
