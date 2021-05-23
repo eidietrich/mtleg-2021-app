@@ -21,10 +21,10 @@ const BillPage = (props) => {
   } = props.pageContext
   const {
     identifier, title, status,
-    lawsUrl, articles, actions,
+    lawsUrl, vetoMemoUrl, articles, actions,
   } = bill
   return <div>
-    <SEO 
+    <SEO
       title={`${identifier}: ${title}`}
       description={`Bill details, sponsor, text, procedural status and more.`}
     />
@@ -35,24 +35,24 @@ const BillPage = (props) => {
 
       <hr />
 
-      <BillInfo bill={bill} sponsor={sponsor}/>
+      <BillInfo bill={bill} sponsor={sponsor} />
 
       <Text paragraphs={bill.annotation} />
-      
+
       {
         (articles.length > 0) && <div>
           <h3 id="mtfp-articles">News coverage</h3>
           <div>MTFP stories about the bill</div>
-          <LinksList articles={articles}/>
+          <LinksList articles={articles} />
         </div>
       }
 
       <Newsletter />
 
-      <BillActions actions={actions} lawsUrl={lawsUrl}/>
+      <BillActions actions={actions} lawsUrl={lawsUrl} vetoMemoUrl={vetoMemoUrl} />
 
-      {/* <BillVotes actions={actions}/> */}
-      
+      {/* <BillVotes actions={actions} /> */}
+
       <ContactUs />
     </Layout>
   </div>;
@@ -101,7 +101,7 @@ const BillPage = (props) => {
 //         outOfInitialCommittee: PropTypes.bool.isRequired,
 //         toSecondChamber: PropTypes.bool.isRequired,
 //         toGovernor: PropTypes.bool.isRequired,
-        
+
 //       }),
 //       subjects: PropTypes.array.isRequired,
 //       textUrl: PropTypes.string.isRequired,
@@ -131,7 +131,7 @@ const BillPage = (props) => {
 //       title: PropTypes.string.isRequired,
 //     }),
 //   }).isRequired
-  
+
 // }
 
 export default BillPage;

@@ -4,7 +4,7 @@
 
 export const statusColors = (billStatus) => {
     return {
-        live: '#91cf60',
+        live: '#e8dc74',
         stalled: '#fc8d59',
         'became-law': '#91cf60',
     }[billStatus] || '#666'
@@ -16,7 +16,7 @@ export const partyColors = (partyLetter, variant = null) => {
             'R': '#f2b4b1',
             'D': '#b6cff0',
             'L': '#efcf7f',
-            
+
         }[partyLetter] || '#666'
     }
     if (variant === 'darker') {

@@ -54,10 +54,10 @@ const Governor = ({ data }) => {
       <BillTable bills={signedBills} />
 
       <h4>Became law without signature</h4>
-      <div className="note">Bills that have become law without the governor's signature after the governor chooses not to issue a signature or a veto by the deadlines specified in the Montana Constitution: 5 days if the Legislature is in session, and 25 days if it isn't.</div>
+      <div className="note">Bills that have become law without the governor's signature after the governor chooses not to issue a signature or a veto by the 10-day deadline specified in the Montana Constitution.</div>
       <BillTable bills={letBecomeLawBills} />
 
-      
+
 
       <Newsletter />
 
@@ -92,6 +92,7 @@ export const query = graphql`
           textUrl
           fiscalNoteUrl
           legalNoteUrl
+          vetoMemoUrl
           numArticles
           sponsor {
             name

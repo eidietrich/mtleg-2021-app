@@ -131,12 +131,20 @@ class BillActions extends Component {
   }
 
   render() {
-    const { actions, lawsUrl } = this.props
+    const { actions, lawsUrl, vetoMemoUrl } = this.props
     const { showMinorActions, showVotes } = this.state
     const actionFilter = showMinorActions ? d => true : d => d.isMajor
+    const annotations = [
+      {
+        key: 'vetoMemo',
+        descriptionFilter: (action => ['Vetoed by Governor', 'Returned with Governor\'s Line-item Veto'].includes(action.description)),
+        label: action => 'Veto memo',
+        url: action => vetoMemoUrl
+      }
+    ]
     const rows = actions
       .filter(actionFilter)
-      .map((d, i) => Action(d, String(i), showVotes))
+      .map((d, i) => Action(d, String(i), showVotes, annotations))
     return <div>
       <h3>Legislative actions</h3>
       <InfoPopup info={infoPopups.find(d => d.key === 'bill-process')} />
@@ -179,10 +187,10 @@ class BillActions extends Component {
       </div>
       <div className="note">This table may omit bill actions recorded since this guide's last update. See the <a href={lawsUrl}>bill page in LAWS</a> for an official reference.</div>
 
-    </div>
+    </div >
   }
 }
-const Action = (action, key, showVotes) => {
+const Action = (action, key, showVotes, annotations) => {
   const { committee, description, vote, voteUrl, date, watchListenUrls, isHighlight,
     //  classification
   } = action
@@ -212,6 +220,16 @@ const Action = (action, key, showVotes) => {
           <div css={recordingLineCss}>
             {watchListenUrls.map((url, i) => <span><a href={url}>Recording {i + 1}.</a> </span>)}
           </div> : null
+      }
+      {
+        // veto memo text and other custom annotations
+        annotations.filter(a => a.descriptionFilter(action)).map(annot => {
+          if (annot.url(action)) {
+            return <a href={annot.url(action)}>{annot.label(action)}</a>
+          } else {
+            return <span>{annot.label(action)}</span>
+          }
+        })
       }
     </div></td>
     <td css={committeeCss}><div css={committeeColWidth}>{committee}</div></td>
@@ -304,7 +322,7 @@ const VoteBlock = ({ vote, voteUrl }) => {
         </div>
       </div>
     </div>
-    <VoteListing votes={votes} voteUrl={voteUrl}/>
+    <VoteListing votes={votes} voteUrl={voteUrl} />
   </div>
 }
 
@@ -331,14 +349,14 @@ const partyVotes = css`
   margin-bottom: 1em;
 `
 
-const VoteListing = ({ votes, voteUrl, defaultOpen=false }) => {
+const VoteListing = ({ votes, voteUrl, defaultOpen = false }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   const gopVotes = votes.filter(d => d.party === 'R')
   const demVotes = votes.filter(d => d.party === 'D')
   return <div>
     <button css={[inlineButtonCss]} onClick={() => setIsOpen(!isOpen)}>
-      {isOpen ? <span>&#x25BE; Hide full vote breakdown</span> : <span>&#x25B8; Show full vote breakdown</span> }
+      {isOpen ? <span>&#x25BE; Hide full vote breakdown</span> : <span>&#x25B8; Show full vote breakdown</span>}
     </button>
     {/* <span>  <a href={voteUrl}>Official vote page.</a></span> */}
     {
@@ -363,7 +381,7 @@ const VoteListing = ({ votes, voteUrl, defaultOpen=false }) => {
         </div> : null
     }
     {
-      isOpen ? 
+      isOpen ?
         <button css={inlineButtonCss} onClick={() => setIsOpen(false)}>
           Hide full vote breakdown
         </button> : null

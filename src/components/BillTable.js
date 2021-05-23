@@ -88,7 +88,7 @@ class BillTable extends Component {
         <tbody>{rows}</tbody>
       </table>
       <div css={noteStyle}>
-        { !suppressCount && <span>Showing {rendered.length} of {bills.length}</span>}
+        {!suppressCount && <span>Showing {rendered.length} of {bills.length}</span>}
         {
           (bills.length > displayLimit) &&
           <span><span>. </span>
@@ -178,14 +178,14 @@ const billLinkCss = css`
 const pluralStory = val => (val !== 1) ? 'stories' : 'story'
 
 
-const Bill = ({ title, identifier, status, label, textUrl, fiscalNoteUrl, legalNoteUrl, numArticles, sponsor }) => {
+const Bill = ({ title, identifier, status, label, textUrl, fiscalNoteUrl, legalNoteUrl, vetoMemoUrl, numArticles, sponsor }) => {
   const color = statusColors(status.status)
   return (<tr css={tableRowCss} key={identifier}>
     <td css={tableBillCell}>
 
-        <Link css={billCss} to={`/bills/${billUrl(identifier)}`}>
-          <span css={identifierCss}>{identifier}:</span> {title}
-        </Link>
+      <Link css={billCss} to={`/bills/${billUrl(identifier)}`}>
+        <span css={identifierCss}>{identifier}:</span> {title}
+      </Link>
       <div css={billLabelCss}>{label}</div>
       <div css={billInfoLineCss}>
         {sponsor && <Link css={billLinkCss} to={`/lawmakers/${lawmakerUrl(sponsor.name)}`}>
@@ -194,6 +194,7 @@ const Bill = ({ title, identifier, status, label, textUrl, fiscalNoteUrl, legalN
         {textUrl && <a css={billLinkCss} href={textUrl} target="_blank" rel="noopener noreferrer">Bill text</a>}
         {fiscalNoteUrl && <a css={billLinkCss} href={fiscalNoteUrl} target="_blank" rel="noopener noreferrer">Fiscal note</a>}
         {legalNoteUrl && <a css={billLinkCss} href={legalNoteUrl} target="_blank" rel="noopener noreferrer">Legal note</a>}
+        {vetoMemoUrl && <a css={billLinkCss} href={vetoMemoUrl} target="_blank" rel="noopener noreferrer">Veto memo</a>}
         {(numArticles > 0) && <Link css={billLinkCss} to={`/bills/${billUrl(identifier)}`}><strong>{numArticles}</strong> MTFP {pluralStory(numArticles)}</Link>}
       </div>
 

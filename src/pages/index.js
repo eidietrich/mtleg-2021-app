@@ -18,9 +18,11 @@ import { dateFormatLong } from '../config/utils'
 import { summary, mostRecentActionDate, infoPopups } from '../data/summary.json'
 
 const keyBillCategories = [
-  "Governor’s budget",
-  "Democratic alternatives",
-  "COVID-19 response",
+  "Major budget bills",
+  "GOP tax bills",
+  "Democratic tax alternatives",
+  "COVID-19 liability",
+  "Emergency power",
   "Broadband internet access",
   "Election administration",
   "Health care policy",
@@ -32,6 +34,7 @@ const keyBillCategories = [
   "Firearm regulations",
   "Anti-abortion measures",
   "Transgender restrictions",
+  "Recreational marijuana implementation",
 ]
 
 const Index = ({ data }) => {
@@ -56,13 +59,13 @@ const Index = ({ data }) => {
           const billsInCat = keyBills.filter(d => d.majorBillCategory === cat)
           return <div key={cat}>
             <h4>{cat}</h4>
-            <BillTable bills={billsInCat} displayLimit={15} suppressCount={true}/>
+            <BillTable bills={billsInCat} displayLimit={15} suppressCount={true} />
           </div>
         })
       }
-      
-      
-      
+
+
+
       <Newsletter />
 
       <h3 id="find-bill">Find a bill</h3>
@@ -97,6 +100,7 @@ export const query = graphql`
           textUrl
           fiscalNoteUrl
           legalNoteUrl
+          vetoMemoUrl
           numArticles
           sponsor {
             name
